@@ -1,15 +1,14 @@
-
-
 /* Daniel */
-
-.c-main {
-    margin: 95px;
+body {
+    display: flex;
+    justify-content: center;
 }
 
 .c-header {
     position: fixed;
     left: 0;
     top: 0;
+    z-index: 1;
 
     height: 69px;
     width: 100%;
@@ -21,18 +20,81 @@
     color: #FFFFFF;
 }
 
+.c-main {
+    margin-top: 95px;
+    width: clamp(375px, 95%, 1100px);
+
+    background-color:aliceblue;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.c-main__database {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.c-main__quizz {
+    position: relative;
+    width: 340px;
+    height: 181px;
+    margin: 5px 10px;
+
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 5px;
+}
+
+.c-quizz__title {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 22px;
+    display: flex;
+    align-items: center;
+
+    color: #FFFFFF;
+}
+
 .u-all-center {
     display: grid;
     place-content: center;
 }
 
+
+
+
+
+
+
+
+
 /* Andréia */
-.c-main__create-quizz{
+.c-main__create{
     width: 340px;
     height: 181px;
     border-style:dotted;
     border-width: 1px;
     border-radius: 5px;
 }
+
+
+
+
+
+
+
+
+
+
+
 /* Igor */
 
