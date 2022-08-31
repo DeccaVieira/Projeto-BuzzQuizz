@@ -1,4 +1,6 @@
 const screenPlayQuizz = document.querySelector('.js-playQuizz');
+const screenMain = document.querySelector('.js-mainQuizzes');
+
 
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
 let thisIsQuizz = undefined;
@@ -83,6 +85,7 @@ function createSingleQuizz(answer) {
         <div>creating a page to play quizz id: ${quizzToPlay.id}</div>
     `
     
+    screenMain.style.display = 'none';
     screenPlayQuizz.style.display = 'initial';
     window.scroll(0, 0);
     return;
@@ -90,4 +93,5 @@ function createSingleQuizz(answer) {
 
 function closeScreenPlay() {
     screenPlayQuizz.style.display = 'none';
+    screenMain.style.display = 'initial';
 }
