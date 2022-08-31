@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/reset.css">
-    <link rel="stylesheet" href="./css/style.css">
 
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>BuzzQuizz</title>
+
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+
 </head>
+
 <body>
+
     <header class="c-header u-all-center">
         <h1>BuzzQuizz</h1>
     </header>
 
-    <main class="c-main">
+    <main class="c-main u-all-center">
 
-        <section class="c-main__create-quizz"></section>
+        <!-- Andreia -->
+        <div class="u-all-center">
+            <section class="c-main__create"></section>
+        </div>
+        <!-- /Andréia -->
 
 
-        <section class="c-main__data-quizz">
-            <article class="c-main__quizz"></article>
-            <article class="c-main__quizz"></article>
-            <article class="c-main__quizz"></article>
-        </section>
+        <h1>Todos os Quizzes</h1>
+        <section class="c-main__database js-databaseOfQuizzes"></section>
 
-        <section class="c-forms is-hidden">
 
-        </section>
+        <!-- Igor -->
+        <section class="c-forms is-hidden"></section>
+        <!-- /Igor -->
 
-        <section class="c-play">
-            
-        </section>
+
+        <!-- Andreia -->
+        <section class="c-play"></section>
+        <!-- /Andreia -->
+
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/script.js"></script>
 </body>
 </html>
