@@ -19,7 +19,9 @@
 .c-main__create-quizz{
     width: 340px;
     height: 181px;
-    border-style:dotted;
+    border-style:dashed;
+     margin:20px;
+     color:rgba(212, 212, 212, 1);
     border-width: 1px;
     border-radius: 5px;
 }
