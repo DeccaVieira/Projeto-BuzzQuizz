@@ -1,4 +1,5 @@
-/* Daniel */
+const screenPlayQuizz = document.querySelector('.js-playQuizz');
+
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
 let thisIsQuizz = undefined;
 
@@ -25,7 +26,7 @@ function makeGet(endUrl, description) {
 
     } else if (description === 'singleQuizz') {
 
-        promise.then( openSingleQuizz );
+        promise.then( createSingleQuizz );
         promise.catch( errorCorrections );
 
     }
@@ -41,7 +42,7 @@ function renderAllQuizzes(answer) {
 
     const listOfQuizz = answer.data;
     const sectionDatabase = document.querySelector('.js-databaseOfQuizzes');
-    console.log(listOfQuizz);
+    // console.log(listOfQuizz);
 
     listOfQuizz.forEach(function(quizz) {
         sectionDatabase.innerHTML += `
@@ -49,7 +50,9 @@ function renderAllQuizzes(answer) {
                     
                 class="c-main__quizz js-quizz" 
                 id="quizz${quizz.id}"
-                style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});">
+                style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
+                onclick="openQuiz(this)">
+                
 
                 <h1 class="c-quizz__title">${quizz.title}</h1>
             </article>  
@@ -59,9 +62,32 @@ function renderAllQuizzes(answer) {
     return;
 }
 
-function openSingleQuizz(answer) {
+function openQuiz(quizz) {
+
+    let justIdQuizz = quizz.id.substring(5);
+    makeGet(`/quizzes/${justIdQuizz}`, 'singleQuizz');
+
+
+    
+}
+
+function createSingleQuizz(answer) {
+    screenPlayQuizz.innerHTML = '';
+
+    const quizzToPlay = answer.data;
+    
+    console.log(quizzToPlay);
+    
+    screenPlayQuizz.innerHTML += `
+        <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
+        <div>creating a page to play quizz id: ${quizzToPlay.id}</div>
+    `
+    
+    screenPlayQuizz.style.display = 'initial';
+    window.scroll(0, 0);
     return;
 }
 
-    
-/* /Daniel */
+function closeScreenPlay() {
+    screenPlayQuizz.style.display = 'none';
+}
