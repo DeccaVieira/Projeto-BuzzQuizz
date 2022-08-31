@@ -73,6 +73,9 @@ function openQuiz(quizz) {
     
 }
 
+
+/* Andreia */
+
 function createSingleQuizz(answer) {
     screenPlayQuizz.innerHTML = '';
 
@@ -90,6 +93,7 @@ function createSingleQuizz(answer) {
     window.scroll(0, 0);
     return;
 }
+/* Andreia */
 
 function closeScreenPlay() {
     screenPlayQuizz.style.display = 'none';
