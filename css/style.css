@@ -6,6 +6,14 @@ body {
     display: flex;
     justify-content: center;
     font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 23px;
+    display: flex;
+    align-items: center;
+
+    background: #FAFAFA;
 }
 
 .c-header {
@@ -24,20 +32,96 @@ body {
     color: #FFFFFF;
 }
 
+.c-header h1 {
+    font-weight: 700;
+    font-size: 37px;
+    line-height: 43px;
+    margin: auto;
+}
+
 .c-main {
     margin-top: 95px;
     width: clamp(375px, 95%, 1100px);
 
-    background-color:aliceblue;
-
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
 }
 
-.c-main__database {
+.c-main__title {
     width: 100%;
+    font-weight: 700;
+    margin: 2rem 0 1.5rem 10px;
+}
+
+.c-main__create {
+    width: 100%;
+    margin: max(5%, 0px);
+
+}
+
+.c-main__box {
+    border: 1px dashed #D5D5D5;
+    border-radius: 5px;
+    height: 181px;
+    width: clamp(340px, 50%, 1050px);
+    background-color: #FAFAFA;
+    flex-direction: column;
+}
+.c-main__box h1 {
+    text-align: center;
+    color: #B9B9B9;
+    padding: 0 25%;
+}
+.c-main__button {
+    height: 40px;
+    margin: 20px 25% 0 25%;
+    background: #FAFAFA;
+    border: 1px dashed #EC362D;
+    color: #EC362D;
+    border-radius: 50px;
+    cursor:pointer;
+}
+
+.c-main__header-creations ion-icon {
+    color: #EC362D;
+    font-size: 30px;
+    margin-left: 10px;
+    cursor:pointer;
+}
+
+.c-main__header-creations h1 {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 1rem;
+}
+
+.c-main__header-creations {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.c-main__creations-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    grid-area: data;
+}
+
+.c-main__creations {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.c-main__database {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -60,38 +144,8 @@ body {
     position: absolute;
     bottom: 15px;
     left: 15px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 19px;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-
     color: #FFFFFF;
 }
-
-.u-all-center {
-    display: grid;
-    place-content: center;
-}
-
-.is-freezed {
-    position: fixed;
-    top: 0;
-
-    height: 100%;
-    width: 100%;
-    
-    overflow: hidden;
-}
-
-
-
-
-
-
-
-
 
 .c-play {
     position:absolute;
@@ -111,26 +165,40 @@ body {
     width: 5rem;
 }
 
-
-
-/* Andréia */
-.c-main__create{
-    width: 340px;
-    height: 181px;
-    border-style:dotted;
-    border-width: 1px;
-    border-radius: 5px;
+.u-all-center {
+    display: flex;
+    place-content: center;
 }
 
+.is-freezed {
+    position: fixed;
+    top: 0;
 
+    height: 100%;
+    width: 100%;
+    
+    overflow: hidden;
+}
 
+.is-hidden {
+    display: none;
+}
 
+.c-forms {
+    position:absolute;
+    top:0;
+    margin: 0;
 
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: none;
 
+    background-color: green;
+}
 
-
-
-
-
-/* Igor */
-
+@media (min-width: 1157px) {
+    .c-main__header-creations {
+        justify-content: space-between;
+    }
+}
