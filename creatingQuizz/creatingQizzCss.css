@@ -1,9 +1,9 @@
-.article{
+.js_article{
     display: flex;
     flex-direction: column;
 }
 
-.button{
+.js_button{
   width: 323px;
   height: 54px;  
   background-color: red;
