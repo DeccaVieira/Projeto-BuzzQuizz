@@ -1,4 +1,5 @@
 const screenPlayQuizz = document.querySelector('.js-playQuizz');
+const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
 
 
@@ -29,6 +30,11 @@ function makeGet(endUrl, description) {
     } else if (description === 'singleQuizz') {
 
         promise.then( createSingleQuizz );
+        promise.catch( errorCorrections );
+
+    } else if (description === 'createQuizz') {
+
+        promise.then( renderCreateQuizz );
         promise.catch( errorCorrections );
 
     }
@@ -73,6 +79,12 @@ function openQuiz(quizz) {
     
 }
 
+function pageToCreateQuizz(quizz) {
+    screenMain.style.display = 'none';
+    screenCreateQuizz.style.display = 'initial';
+
+}
+
 
 /* Andreia */
 
@@ -97,6 +109,11 @@ function createSingleQuizz(answer) {
 
 function closeScreenPlay() {
     screenPlayQuizz.style.display = 'none';
+    screenMain.style.display = 'initial';
+}
+
+function closeScreenCreate() {
+    screenCreateQuizz.style.display = 'none';
     screenMain.style.display = 'initial';
 }
 
