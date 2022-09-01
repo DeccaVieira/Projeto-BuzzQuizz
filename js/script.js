@@ -99,3 +99,5 @@ function closeScreenPlay() {
     screenPlayQuizz.style.display = 'none';
     screenMain.style.display = 'initial';
 }
+
+module.exports = makePost, makeGet, errorCorrections
