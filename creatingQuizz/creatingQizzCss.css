@@ -1,0 +1,12 @@
+.article{
+    display: flex;
+    flex-direction: column;
+}
+
+.button{
+  width: 323px;
+  height: 54px;  
+  background-color: red;
+  color: white;
+  border-radius: 15px;
+}
