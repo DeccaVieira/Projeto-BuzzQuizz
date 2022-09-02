@@ -1,6 +1,7 @@
-let screenPlayQuizz = document.querySelector('.js-playQuizz');
+const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
+let count = 0;
 
 
 
@@ -97,7 +98,6 @@ function renderAllQuizzes(answer) {
     return;
 }
 
-
 function openQuiz(quizz) {
 
     let justIdQuizz = quizz.id.substring(5);
@@ -113,8 +113,7 @@ function pageToCreateQuizz(quizz) {
 
 }
 
-
-/* Andreia */
+let posicao = [];
 
 function createSingleQuizz(answer) {
 
@@ -140,7 +139,7 @@ function createSingleQuizz(answer) {
     for(let i=0; i < questionsQuizz.length; i++) {
 
         screenPlayQuizz.innerHTML += `
-        <section class="c-play__box-question js-question${i}">
+        <section class="c-play__box-question js-question${i} js-scroll${i}">
             <div class="c-play__question u-all-center js-question-color">${questionsQuizz[i].title}</div>
 
             <div class="c-play__box-options js-box1"></div>
@@ -150,66 +149,115 @@ function createSingleQuizz(answer) {
         `;
 
         document.querySelector('.js-question-color').style.backgroundColor =  questionsQuizz[i].color;
-
         const boxQuestionOne = document.querySelector(`.js-question${i} .js-box1`);
-
         const boxQuestionTwo = document.querySelector(`.js-question${i} .js-box2`);
         
         for(let e=0; e < questionsQuizz[i].answers.length; e++) {
-
+    
             
             if (e <= 1) {
                 boxQuestionOne.innerHTML += `
         
                     <div class="c-play__box-option">
-                        <div class="c-play__option js-option${i}" style="background-image: url(${questionsQuizz[i].answers[e].image});">
+                        <div class="c-play__option js-option${i}" data-correct="${questionsQuizz[i].answers[e].isCorrectAnswer}" onclick="ChosenAnswer(this)" style="background-image: url(${questionsQuizz[i].answers[e].image});">
                         </div>
-                        <p>${questionsQuizz[i].answers[e].text}</p>
+                        <p class="js-option-text">${questionsQuizz[i].answers[e].text}</p>
                     </div>
                 `;
             } else {
                 boxQuestionTwo.innerHTML += `
     
                     <div class="c-play__box-option">
-                        <div class="c-play__option js-option${i}" style="background-image: url(${questionsQuizz[i].answers[e].image});">
+                        <div class="c-play__option js-option${i}" data-correct="${questionsQuizz[i].answers[e].isCorrectAnswer}" onclick="ChosenAnswer(this)" style="background-image: url(${questionsQuizz[i].answers[e].image});">
                         </div>
-                        <p>${questionsQuizz[i].answers[e].text}</p>
+                        <p class="js-option-text">${questionsQuizz[i].answers[e].text}</p>
                     </div>
                 `;
             }
         }
+        if (i === questionsQuizz.length - 1) {
+
+            screenPlayQuizz.innerHTML += `
+            <section class="c-play__result js-scroll${i+1}">
+
+                <h1 class="c-play_result-title u-all-center"></h1>
+
+                <div class="c-play__result-content">
+                    <img src="" alt="">
+        
+                    <p></p>
+                </div>
+            </section>
+
+            <section class="blabla">
+                <button>Reiniciar Quizz</button>
+    
+                <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
+                <div>creating a page to play quizz id${quizzToPlay.id}</div>
+            </section>
+        
+            `;
+        }
     }
-    screenPlayQuizz += `
-    <div class="blabla">
-        <button>Reiniciar Quizz</button>
 
-        <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
-        <div>creating a page to play quizz id: ${quizzToPlay.id}</div>
-    </div>
-    `;
-
-    console.log('aaaaaaaaaaaaaaaaaaaaaa');
-
+    
     window.scroll(0, 0);
-    return;
 }
 
+function ChosenAnswer(selected) {
+    
+    const questionSelected = selected.parentNode.parentNode.parentNode;
+    const classOfQuestionSelected = questionSelected.classList[1];
+    
+
+    const listOptionsQuestion = document.querySelectorAll(`.${classOfQuestionSelected} .c-play__option`);
+    
+    listOptionsQuestion.forEach( function(element) {
+
+        const value = element.dataset.correct;
+
+        if (value === 'false') {
+            element.nextElementSibling.style.color = '#FF0B0B';
+
+        } else {
+            element.nextElementSibling.style.color = '#009C22';
+        }
+
+        if (element !== selected) {
+            element.style.opacity = '0.3';
+        }
+
+        element.style.pointerEvents = 'none';
+    } );
+
+    setTimeout((function() {
+        document.querySelector(`.js-scroll${count}`).scrollIntoView(false)
+    }), 2000);
+    count++;
+}
+
+
+
+
+
 function closeScreenPlay() {
-    screenPlayQuizz.style.display = 'none';
     screenMain.style.display = 'initial';
+    screenPlayQuizz.style.display = 'none';
+    window.scroll(0, 0);
 }
 
 function closeScreenCreate() {
     screenCreateQuizz.style.display = 'none';
     screenMain.style.display = 'initial';
+    window.scroll(0, 0);
 }
-
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
 
-        [array[i], array[j]] = [array[j], array[i]];
+        const randomPosition = Math.floor(Math.random() * (i + 1));
+
+        [array[i], array[randomPosition]] = [array[randomPosition], array[i]];
     }
     return array;
 }

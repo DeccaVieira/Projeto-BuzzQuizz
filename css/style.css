@@ -220,6 +220,8 @@ body {
     height:  clamp(89px ,20vw, 138px);
     background: #434CA0;
     margin: 10px;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
 .c-play_result-title {
@@ -272,7 +274,9 @@ body {
 
 
 
-
+.u-pointer-events-none {
+    pointer-events: none !important;
+}
 
 .u-all-center {
     display: flex;
