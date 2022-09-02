@@ -3,6 +3,33 @@ const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
 
 
+
+
+
+
+
+/* const meuStorage = localStorage;
+const idd = 213432;
+const sdkljdsa = {
+    nome: 'rodrigo',
+    idade: 123
+};
+meuStorage.setItem(idd, JSON.stringify(sdkljdsa));
+console.log(meuStorage.getItem(idd)) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
 let thisIsQuizz = undefined;
 
@@ -70,6 +97,19 @@ function renderAllQuizzes(answer) {
     return;
 }
 
+
+// primeira pergunta
+
+// segunda pergunta
+
+// 
+
+
+
+
+
+
+
 function openQuiz(quizz) {
 
     let justIdQuizz = quizz.id.substring(5);
@@ -92,16 +132,51 @@ function createSingleQuizz(answer) {
     screenPlayQuizz.innerHTML = '';
 
     const quizzToPlay = answer.data;
+    const questionsQuizz = quizzToPlay.questions[0];
     
     console.log(quizzToPlay);
     
     screenPlayQuizz.innerHTML += `
-        <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
-        <div>creating a page to play quizz id: ${quizzToPlay.id}</div>
-    `
+        <div 
+            class="c-play__header u-all-center" 
+            style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${quizzToPlay.image});"
+            >
+
+            <h1>${quizzToPlay.title}</h1>
+        </div>
+
+        <section class="c-play__box-question">
+            <div class="c-play__question u-all-center">${questionsQuizz.title}</div>
+        </section>
+        `;
+        
+    const blabla = document.querySelector('.c-play__box-options');
+    let bleble = '';
+
+    for(let i=0; i < questionsQuizz.answers.length; i+=2) {
+        if (i%2===0) {
+            bleble += `
+                <div class="c-play__box-options">
+                    <div class="c-play__box-option">
+                        <div class="c-play__option js-optionX" style="background-image: url(${questionsQuizz.answers[i].image});">
+                        </div>
+                        <p>${questionsQuizz.answers[i].text}</p>
+                    </div>
+                    <div class="c-play__box-option">
+                        <div class="c-play__option js-optionX" style="background-image: url(${questionsQuizz.answers[i+1].image});">
+                        </div>
+                        <p>${questionsQuizz.answers[i+1].text}</p>
+                    </div>
+                </div>
+            `;
+        }
+    }
+    blabla.innerHTML = bleble;
+
+
     
     screenMain.style.display = 'none';
-    screenPlayQuizz.style.display = 'initial';
+    screenPlayQuizz.style.display = 'flex';
     window.scroll(0, 0);
     return;
 }
@@ -117,4 +192,4 @@ function closeScreenCreate() {
     screenMain.style.display = 'initial';
 }
 
-module.exports = makePost, makeGet, errorCorrections
+// module.exports = makePost, makeGet, errorCorrections

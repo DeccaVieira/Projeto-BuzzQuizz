@@ -1,59 +1,21 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/reset.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/style3.css">
-
-    <title>BuzzQuizz</title>
 </head>
 <body>
-    <header class="c-header u-all-center">
-        <h1>BuzzQuizz</h1>
-    </header>
 
 
-    <main class="c-main u-all-center js-mainQuizzes">
 
 
-        <section class="c-main__create u-all-center">
-            <div class="c-main__box u-all-center">
-                <h1>Você não criou nenhum quizz ainda :(</h1>
-                <button class="c-main__button" onclick="pageToCreateQuizz()">Criar Quizz</button>
-            </div>
-        </section>
 
-        <section class="c-main__creations">
-            <div class="c-main__header-creations">
-                <h1>Seus Quizzes</h1>
-                <ion-icon name="add-circle" onclick="pageToCreateQuizz()"></ion-icon>
-            </div>
-            <div class="c-main__creations-data js-databaseCreations">
-                <article class="c-main__quizz"></article>
-                <article class="c-main__quizz"></article>
-                <article class="c-main__quizz"></article>
-            </div>
-        </section>
+    <section class="c-play js-playQuizz u-vertical-center" style="display: flex;">
 
-
-        <h1 class="c-main__title">Todos os Quizzes</h1>
-        <section class="c-main__database js-databaseOfQuizzes"></section>
-   
-    </main>
-
-
-    <!-- Igor -->
-    <section class="c-forms js-createQuizz">
-        <button class="c-play__button-close" onclick="closeScreenCreate()">fechar</button>
-    </section>
-    <!-- /Igor -->
-
-
-    <!-- Andreia -->
-    <section class="c-play js-playQuizz u-vertical-center">
         <div 
             class="c-play__header u-all-center" 
             style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=90&strip=info&w=1024&resize=1200,800);"
@@ -67,12 +29,24 @@
             <div class="c-play__question u-all-center">dfsfdsd</div>
 
             <div class="c-play__box-options">
-                <div>
-                    <div class="c-play__option js-optionX" style="background-image: url('https://saude.abril.com.br/wp-content/uploads/2016/10/11-sinais-que-seu-gato-esta-doente.jpg?quality=85&strip=info&w=1024&resize=1200,800');">
-                    </div>
+                <div class="c-play__option js-optionX" style="background-image: url('https://saude.abril.com.br/wp-content/uploads/2016/10/11-sinais-que-seu-gato-esta-doente.jpg?quality=85&strip=info&w=1024&resize=1200,800');">
+                    <img src="" alt="">
                     <p>blablab</p>
                 </div>
-
+                <div class="c-play__option js-optionX">
+                    <img src="" alt="">
+                    <p>blablab</p>
+                </div>
+            </div>
+            <div class="c-play__box-options">
+                <div class="c-play__option js-optionX">
+                    <img src="" alt="">
+                    <p>blablab</p>
+                </div>
+                <div class="c-play__option js-optionX">
+                    <img src="" alt="">
+                    <p>blablab</p>
+                </div>
 
             </div>
 
@@ -125,14 +99,16 @@
         </div>
 
     </section>
-    <!-- /Andreia -->
 
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+
+
+
+
+
+
     <script src="./js/script.js"></script>
-    <script src="./js/script2.js"></script>
-
 </body>
 </html>
