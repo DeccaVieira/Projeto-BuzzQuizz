@@ -1,4 +1,4 @@
-const screenPlayQuizz = document.querySelector('.js-playQuizz');
+let screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
 
@@ -129,14 +129,17 @@ function pageToCreateQuizz(quizz) {
 /* Andreia */
 
 function createSingleQuizz(answer) {
-    screenPlayQuizz.innerHTML = '';
+
+    screenMain.style.display = 'none';
+    screenPlayQuizz.style.display = 'flex';
 
     const quizzToPlay = answer.data;
-    const questionsQuizz = quizzToPlay.questions[0];
+    const questionsQuizz = shuffleArray(quizzToPlay.questions);
+    console.log('Embaralhada: ', questionsQuizz)
     
     console.log(quizzToPlay);
     
-    screenPlayQuizz.innerHTML += `
+    screenPlayQuizz.innerHTML = `
         <div 
             class="c-play__header u-all-center" 
             style="background: linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${quizzToPlay.image});"
@@ -144,39 +147,58 @@ function createSingleQuizz(answer) {
 
             <h1>${quizzToPlay.title}</h1>
         </div>
+        `;
 
-        <section class="c-play__box-question">
-            <div class="c-play__question u-all-center">${questionsQuizz.title}</div>
+    for(let i=0; i < questionsQuizz.length; i++) {
+
+        screenPlayQuizz.innerHTML += `
+        <section class="c-play__box-question js-question${i}">
+            <div class="c-play__question u-all-center">${questionsQuizz[i].title}</div>
+
+            <div class="c-play__box-options js-box1"></div>
+            <div class="c-play__box-options js-box2"></div>
+
         </section>
         `;
-        
-    const blabla = document.querySelector('.c-play__box-options');
-    let bleble = '';
+        const boxQuestionOne = document.querySelector(`.js-question${i} .js-box1`);
 
-    for(let i=0; i < questionsQuizz.answers.length; i+=2) {
-        if (i%2===0) {
-            bleble += `
-                <div class="c-play__box-options">
+        const boxQuestionTwo = document.querySelector(`.js-question${i} .js-box2`);
+        
+        for(let e=0; e < questionsQuizz[i].answers.length; e++) {
+
+            
+            if (e <= 1) {
+                boxQuestionOne.innerHTML += `
+        
                     <div class="c-play__box-option">
-                        <div class="c-play__option js-optionX" style="background-image: url(${questionsQuizz.answers[i].image});">
+                        <div class="c-play__option js-option${i}" style="background-image: url(${questionsQuizz[i].answers[e].image});">
                         </div>
-                        <p>${questionsQuizz.answers[i].text}</p>
+                        <p>${questionsQuizz[i].answers[e].text}</p>
                     </div>
+                `;
+            } else {
+                boxQuestionTwo.innerHTML += `
+    
                     <div class="c-play__box-option">
-                        <div class="c-play__option js-optionX" style="background-image: url(${questionsQuizz.answers[i+1].image});">
+                        <div class="c-play__option js-option${i}" style="background-image: url(${questionsQuizz[i].answers[e].image});">
                         </div>
-                        <p>${questionsQuizz.answers[i+1].text}</p>
+                        <p>${questionsQuizz[i].answers[e].text}</p>
                     </div>
-                </div>
-            `;
+                `;
+            }
         }
     }
-    blabla.innerHTML = bleble;
+    screenPlayQuizz += `
+    <div class="blabla">
+        <button>Reiniciar Quizz</button>
 
+        <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
+        <div>creating a page to play quizz id: ${quizzToPlay.id}</div>
+    </div>
+    `;
 
-    
-    screenMain.style.display = 'none';
-    screenPlayQuizz.style.display = 'flex';
+    console.log('aaaaaaaaaaaaaaaaaaaaaa');
+
     window.scroll(0, 0);
     return;
 }
@@ -190,6 +212,16 @@ function closeScreenPlay() {
 function closeScreenCreate() {
     screenCreateQuizz.style.display = 'none';
     screenMain.style.display = 'initial';
+}
+
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 // module.exports = makePost, makeGet, errorCorrections

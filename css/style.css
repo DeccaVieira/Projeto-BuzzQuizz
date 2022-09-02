@@ -245,6 +245,7 @@ body {
 }
 
 .c-play__box-option p {
+    word-break: break-word;
     margin: 10px;
 
 }
