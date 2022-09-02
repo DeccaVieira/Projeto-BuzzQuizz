@@ -1,7 +1,12 @@
 const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
+
 let count = 0;
+let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
+let thisIsQuizz = undefined;
+let posicao = [];
+let justIdQuizz;
 
 
 
@@ -17,22 +22,7 @@ const sdkljdsa = {
 };
 meuStorage.setItem(idd, JSON.stringify(sdkljdsa));
 console.log(meuStorage.getItem(idd)) */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
-let thisIsQuizz = undefined;
+let lastQuestion;
 
 makeGet('/quizzes', 'allQuizzes');
 
@@ -100,7 +90,7 @@ function renderAllQuizzes(answer) {
 
 function openQuiz(quizz) {
 
-    let justIdQuizz = quizz.id.substring(5);
+    justIdQuizz = quizz.id.substring(5);
     makeGet(`/quizzes/${justIdQuizz}`, 'singleQuizz');
 
 
@@ -112,8 +102,6 @@ function pageToCreateQuizz(quizz) {
     screenCreateQuizz.style.display = 'initial';
 
 }
-
-let posicao = [];
 
 function createSingleQuizz(answer) {
 
@@ -177,8 +165,11 @@ function createSingleQuizz(answer) {
         }
         if (i === questionsQuizz.length - 1) {
 
+            lastQuestion = screenPlayQuizz.lastElementChild;
+            console.log('ultima questão', lastQuestion)
+
             screenPlayQuizz.innerHTML += `
-            <section class="c-play__result js-scroll${i+1}">
+            <section class="c-play__result js-result js-scroll${i+1} is-hidden">
 
                 <h1 class="c-play_result-title u-all-center"></h1>
 
@@ -189,8 +180,8 @@ function createSingleQuizz(answer) {
                 </div>
             </section>
 
-            <section class="blabla">
-                <button>Reiniciar Quizz</button>
+            <section class="blabla is-hidden">
+                <button onclick="reloadQuizz()">Reiniciar Quizz</button>
     
                 <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
                 <div>creating a page to play quizz id${quizzToPlay.id}</div>
@@ -211,6 +202,8 @@ function ChosenAnswer(selected) {
     
 
     const listOptionsQuestion = document.querySelectorAll(`.${classOfQuestionSelected} .c-play__option`);
+
+    console.log('aaaaaaaaaaaaaaaa',lastQuestion.classList[2], questionSelected.classList[2])
     
     listOptionsQuestion.forEach( function(element) {
 
@@ -230,15 +223,21 @@ function ChosenAnswer(selected) {
         element.style.pointerEvents = 'none';
     } );
 
+    if (questionSelected.classList[2] === lastQuestion.classList[2]) {
+        document.querySelector('.js-result').style.display = 'initial';
+        document.querySelector('.blabla').style.display = 'initial';
+    }
+
     setTimeout((function() {
         document.querySelector(`.js-scroll${count}`).scrollIntoView(false)
     }), 2000);
     count++;
 }
 
-
-
-
+function reloadQuizz() {
+    
+    makeGet(`/quizzes/${justIdQuizz}`, 'singleQuizz');
+}
 
 function closeScreenPlay() {
     screenMain.style.display = 'initial';
