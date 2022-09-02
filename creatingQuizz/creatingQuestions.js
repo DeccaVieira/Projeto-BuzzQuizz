@@ -1,13 +1,5 @@
-import "script.js"
-
 /*
 
-//construtor do quiz
-const quiz = {
-    title: "titulo",
-    image: "imagem",
-    questions: []
-}
 
 //construto de questão
 const question = {
@@ -25,7 +17,6 @@ const answer = {
 
 usar esse pedaço do HTML
 const formulario = document.querySelector(".c-forms")
-
 */
 
 
@@ -35,15 +26,18 @@ const questions = []
 //answers = [answer0, answer1,...]
 const answers = []
 
-//objetos vazios
-const question = {}
-const answer = {}
+//construtor do quiz - fazer ele pelas informacoes basicas do quiz
+const quiz = {
+    title: "esse é o titulo do quiz",
+    image: "essa é a imagem do quiz",
+    questions: []
+}
 
 
 const pergunta =
-    `
-<article>
-    <label Pergunta ></label>
+`
+<article class="js_article">
+    <label> Pergunta </label>
     <input type="text" class="js_texto_pergunta" placeholder="Título da pergunta">
     <input type="text" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
 </article> 
@@ -51,8 +45,8 @@ const pergunta =
 
 const resposta_correta =
     `
-<article>
-    <label Resposta correta></label>
+<article class="js_article">
+    <label>Resposta correta</label>
     <input type="text" class="js_texto_resposta correta" placeholder="Título da resposta correta">
     <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
 </article> 
@@ -61,51 +55,71 @@ const resposta_correta =
 
 const resposta_incorreta =
     `
-<article>
-    <label Resposta incorreta></label>
+<article class="js_article">
+    <label> Resposta incorreta</label>
     <input type="text" class="js_texto_resposta incorreta" placeholder="Título da resposta incorreta">
     <input type="url" class="js_url_img_resposta incorreta" placeholder="URL da imagem">
 </article> 
 `
 
-function creatRightAnswer() {
+const botao = `<button class="js_button" onclick="criarQuiz()">Prosseguir pra criar níveis</button>`
+
+const formulario = document.querySelector(".c-forms")
+formulario.innerHTML += pergunta + resposta_correta + resposta_incorreta + botao;
+
+
+
+function createRightAnswer() {
+
+    const answer = {}
 
     //criar as variaveis com os inputs das respostaas
-    const textoResposta = document.querySelector('.correta')
-    const urlResposta = document.querySelector('.correta')
+    const textoResposta = document.querySelector('.js_texto_resposta.correta')
+    const urlResposta = document.querySelector('.js_url_img_resposta.correta')
 
     if (textoResposta.value !== "") {
-        answer.text = textoResposta, //!== ""
-        answer.image = urlResposta, //must be url
+        answer.text = textoResposta.value, //!== ""
+        answer.image = urlResposta.value, //must be url
         answer.isCorrectAnswer = true //pelo menos uma answer tem que ser a correta
 
+        answers.push(answer)
+
     } else {
         alert("você precisa escrever algo para a resposta")
     }
 
-    answers.push(answer)
+    
+    console.log("lista de resposta certa: ", answers)
 }
 
-function creatWrongAnswer() {
+function createWrongAnswer() {
+
+    const answer = {}
 
     //criar as variaveis com os inputs das respostaas
-    const textoResposta = document.querySelector('.incorreta')
-    const urlResposta = document.querySelector('.incorreta')
+    const textoResposta = document.querySelector('.js_texto_resposta.incorreta')
+    const urlResposta = document.querySelector('.js_url_img_resposta.incorreta')
 
     if (textoResposta.value !== "") {
-        answer.text = textoResposta, //!== ""
-        answer.image = urlResposta, //must be url
+        answer.text = textoResposta.value, //!== ""
+        answer.image = urlResposta.value, //must be url
         answer.isCorrectAnswer = false //pelo menos uma answer tem que ser a correta
+
+        answers.push(answer)
 
     } else {
         alert("você precisa escrever algo para a resposta")
     }
 
-    answers.push(answer)
+    
+    console.log("lista de resposta errada: ", answers)
+    
 }
 
+const question = { }
+function createTextQuestion() {
 
-function creatTextQuestion() {
+    
 
     //criar as variaveis com os inputs das perguntas
     const textoPergunta = document.querySelector('.js_texto_pergunta');
@@ -123,6 +137,7 @@ function creatTextQuestion() {
     }
 
     return question
+    console.log("lista de questao: " + question)
 }
 
 function createQuestion() {
@@ -142,10 +157,26 @@ function createQuestion() {
 
         if (correto === 1 && incorreto > 0) {
             question.answers = answers
+
+            questions.push(question)
         } else {
             alert("Você não escreveu a respota correta ou não escreveu o numero suficiente de incorretas")
         }
 
     }
-    questions.push(question)
+    
+    console.log("lista de questoes",questions)
+}
+
+
+function criarQuiz(){
+    
+    createRightAnswer()
+    createWrongAnswer()
+    createTextQuestion()
+    createQuestion()
+    console.log(questions)
+    quiz.questions = questions
+    console.log(quiz)
+
 }

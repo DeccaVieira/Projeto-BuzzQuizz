@@ -1,0 +1,12 @@
+.js_article{
+    display: flex;
+    flex-direction: column;
+}
+
+.js_button{
+  width: 323px;
+  height: 54px;  
+  background-color: red;
+  color: white;
+  border-radius: 15px;
+}
