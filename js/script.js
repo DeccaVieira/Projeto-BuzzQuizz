@@ -98,18 +98,6 @@ function renderAllQuizzes(answer) {
 }
 
 
-// primeira pergunta
-
-// segunda pergunta
-
-// 
-
-
-
-
-
-
-
 function openQuiz(quizz) {
 
     let justIdQuizz = quizz.id.substring(5);
@@ -153,13 +141,16 @@ function createSingleQuizz(answer) {
 
         screenPlayQuizz.innerHTML += `
         <section class="c-play__box-question js-question${i}">
-            <div class="c-play__question u-all-center">${questionsQuizz[i].title}</div>
+            <div class="c-play__question u-all-center js-question-color">${questionsQuizz[i].title}</div>
 
             <div class="c-play__box-options js-box1"></div>
             <div class="c-play__box-options js-box2"></div>
 
         </section>
         `;
+
+        document.querySelector('.js-question-color').style.backgroundColor =  questionsQuizz[i].color;
+
         const boxQuestionOne = document.querySelector(`.js-question${i} .js-box1`);
 
         const boxQuestionTwo = document.querySelector(`.js-question${i} .js-box2`);
@@ -202,7 +193,6 @@ function createSingleQuizz(answer) {
     window.scroll(0, 0);
     return;
 }
-/* Andreia */
 
 function closeScreenPlay() {
     screenPlayQuizz.style.display = 'none';
