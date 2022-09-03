@@ -208,7 +208,9 @@ body {
 
 
 .c-play__result img, .c-play__result p {
+    word-wrap: break-word;
     width: 50%;
+    height: 100%;
     margin: 10px;
 }
 

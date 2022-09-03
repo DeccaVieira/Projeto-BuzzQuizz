@@ -4,10 +4,10 @@ const screenMain = document.querySelector('.js-mainQuizzes');
 
 let count = 0;
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
-let thisIsQuizz = undefined;
-let posicao = [];
 let justIdQuizz;
-
+let correctAnswer = 0;
+let lastQuestion;
+let quizzToPlay;
 
 
 
@@ -22,7 +22,6 @@ const sdkljdsa = {
 };
 meuStorage.setItem(idd, JSON.stringify(sdkljdsa));
 console.log(meuStorage.getItem(idd)) */
-let lastQuestion;
 
 makeGet('/quizzes', 'allQuizzes');
 
@@ -93,8 +92,6 @@ function openQuiz(quizz) {
     justIdQuizz = quizz.id.substring(5);
     makeGet(`/quizzes/${justIdQuizz}`, 'singleQuizz');
 
-
-    
 }
 
 function pageToCreateQuizz(quizz) {
@@ -108,7 +105,7 @@ function createSingleQuizz(answer) {
     screenMain.style.display = 'none';
     screenPlayQuizz.style.display = 'flex';
 
-    const quizzToPlay = answer.data;
+    quizzToPlay = answer.data;
     const questionsQuizz = shuffleArray(quizzToPlay.questions);
     console.log('Embaralhada: ', questionsQuizz)
     
@@ -171,12 +168,12 @@ function createSingleQuizz(answer) {
             screenPlayQuizz.innerHTML += `
             <section class="c-play__result js-result js-scroll${i+1} is-hidden">
 
-                <h1 class="c-play_result-title u-all-center"></h1>
+                <h1 class="c-play_result-title js-result-title u-all-center"></h1>
 
                 <div class="c-play__result-content">
-                    <img src="" alt="">
+                    <img class="js-image-result" src="" alt="">
         
-                    <p></p>
+                    <p class="js-paragraph-result"></p>
                 </div>
             </section>
 
@@ -199,11 +196,12 @@ function ChosenAnswer(selected) {
     
     const questionSelected = selected.parentNode.parentNode.parentNode;
     const classOfQuestionSelected = questionSelected.classList[1];
-    
-
     const listOptionsQuestion = document.querySelectorAll(`.${classOfQuestionSelected} .c-play__option`);
 
-    console.log('aaaaaaaaaaaaaaaa',lastQuestion.classList[2], questionSelected.classList[2])
+    if (selected.dataset.correct === 'true') {
+        correctAnswer++;
+    }
+
     
     listOptionsQuestion.forEach( function(element) {
 
@@ -224,19 +222,54 @@ function ChosenAnswer(selected) {
     } );
 
     if (questionSelected.classList[2] === lastQuestion.classList[2]) {
+
+        showResultsQuizz();
         document.querySelector('.js-result').style.display = 'initial';
         document.querySelector('.blabla').style.display = 'initial';
-    }
 
+    }
+    
+    count++;
+    console.log(count);
     setTimeout((function() {
         document.querySelector(`.js-scroll${count}`).scrollIntoView(false)
     }), 2000);
-    count++;
 }
 
 function reloadQuizz() {
     
     makeGet(`/quizzes/${justIdQuizz}`, 'singleQuizz');
+}
+
+function showResultsQuizz() {
+
+    const numberTotalQuestions = count+1;
+    count = -1;
+    const result = Math.round((correctAnswer / numberTotalQuestions) * 100);
+    correctAnswer = undefined;
+    lastQuestion = undefined;
+    
+    const levelsQuizz = quizzToPlay.levels;
+    quizzToPlay = undefined;
+    
+    let levelResultUser;
+    console.log('', )
+    const valuesLevelsResult = levelsQuizz.map((level) => level.minValue).filter((values) => values <= result);
+    console.log('valuesLevelsResult', valuesLevelsResult);
+    const maxValueResult = Math.max(...valuesLevelsResult);
+    console.log('maxValueResult', maxValueResult);
+    
+    levelsQuizz.forEach(function(level) {
+        if (level.minValue == maxValueResult) {
+            levelResultUser = level;
+            console.log('levelResultUser', levelResultUser);
+        }
+    })
+    
+    document.querySelector('.js-result-title').innerHTML = `${result}% de acerto: ${levelResultUser.title}`;
+    document.querySelector('.js-image-result').src = levelResultUser.image;
+    document.querySelector('.js-paragraph-result').innerHTML = levelResultUser.text;
+
 }
 
 function closeScreenPlay() {
