@@ -191,8 +191,16 @@ body {
     font-size: clamp(20px, 3.5vw, 39px);
 }
 
-.blabla {
-    background-color: #434CA0;
+/* max() clamp() min() */
+
+.c-play__restart-button {
+    margin: 20px 0;
+    width: clamp(220px, 30vw, 260px);
+    height: clamp(44px, 30vw, 52px);
+    background: #EC362D;
+    color: #FFFFFF;
+    border-radius: 15px;
+    cursor: pointer;
 }
 .c-play__box-question, .c-play__result {
     margin: 20px 0;
@@ -246,6 +254,8 @@ body {
     background-color: yellow;
     margin: 10px;
     background-size: 100%;
+    cursor: pointer;
+
 }
 
 .c-play__box-option p {
@@ -255,10 +265,12 @@ body {
 }
 
 .c-play__button-close {
-    background-color: blue;
-    width: 5rem;
-}
+    margin-bottom: 50px;
+    color: #818181;
+    text-align: center;
 
+    cursor: pointer;
+}
 
 
 

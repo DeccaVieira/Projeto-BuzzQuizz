@@ -178,11 +178,10 @@ function createSingleQuizz(answer) {
                 </div>
             </section>
 
-            <section class="blabla is-hidden">
-                <button onclick="reloadQuizz()">Reiniciar Quizz</button>
+            <section class="c-play__restart is-hidden">
+                <button class="c-play__restart-button" onclick="reloadQuizz()">Reiniciar Quizz</button>
     
-                <button class="c-play__button-close" onclick="closeScreenPlay()">fechar</button>
-                <div>creating a page to play quizz id${quizzToPlay.id}</div>
+                <div class="c-play__button-close" onclick="closeScreenPlay()">Voltar pra home</div>
             </section>
         
             `;
@@ -229,7 +228,7 @@ function ChosenAnswer(selected) {
     if (questionSelected.classList[2] === lastQuestion.classList[2]) {
 
         document.querySelector('.js-result').style.display = 'initial';
-        document.querySelector('.blabla').style.display = 'initial';
+        document.querySelector('.c-play__restart').style.display = 'initial';
         showResultsQuizz();
         
     } else {
@@ -274,7 +273,7 @@ function showResultsQuizz() {
         correctAnswer = 0;
         lastQuestion = undefined;
         quizzToPlay = undefined;
-        
+
     }), 2000);
     
 
