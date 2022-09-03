@@ -1,14 +1,15 @@
-const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
+const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
 
-let count = 0;
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
-let justIdQuizz;
+let numberTotalQuestions = 0;
 let correctAnswer = 0;
-let lastQuestion;
-let quizzToPlay;
+let count = 0;
 
+let lastQuestion;
+let justIdQuizz;
+let quizzToPlay;
 
 
 
@@ -193,7 +194,10 @@ function createSingleQuizz(answer) {
 }
 
 function ChosenAnswer(selected) {
-    
+
+    numberTotalQuestions++;
+    count++;
+
     const questionSelected = selected.parentNode.parentNode.parentNode;
     const classOfQuestionSelected = questionSelected.classList[1];
     const listOptionsQuestion = document.querySelectorAll(`.${classOfQuestionSelected} .c-play__option`);
@@ -220,20 +224,21 @@ function ChosenAnswer(selected) {
 
         element.style.pointerEvents = 'none';
     } );
-
+    
+    
     if (questionSelected.classList[2] === lastQuestion.classList[2]) {
 
-        showResultsQuizz();
         document.querySelector('.js-result').style.display = 'initial';
         document.querySelector('.blabla').style.display = 'initial';
+        showResultsQuizz();
+        
+    } else {
 
+        setTimeout((function() {
+            document.querySelector(`.js-scroll${count}`).scrollIntoView(false)
+        }), 2000);
     }
     
-    count++;
-    console.log(count);
-    setTimeout((function() {
-        document.querySelector(`.js-scroll${count}`).scrollIntoView(false)
-    }), 2000);
 }
 
 function reloadQuizz() {
@@ -242,33 +247,36 @@ function reloadQuizz() {
 }
 
 function showResultsQuizz() {
-
-    const numberTotalQuestions = count+1;
-    count = -1;
-    const result = Math.round((correctAnswer / numberTotalQuestions) * 100);
-    correctAnswer = undefined;
-    lastQuestion = undefined;
     
-    const levelsQuizz = quizzToPlay.levels;
-    quizzToPlay = undefined;
-    
+    let result = Math.round((correctAnswer / numberTotalQuestions) * 100);
+    let levelsQuizz = quizzToPlay.levels;
     let levelResultUser;
-    console.log('', )
-    const valuesLevelsResult = levelsQuizz.map((level) => level.minValue).filter((values) => values <= result);
-    console.log('valuesLevelsResult', valuesLevelsResult);
-    const maxValueResult = Math.max(...valuesLevelsResult);
-    console.log('maxValueResult', maxValueResult);
+    
+    let valuesLevelsResult = levelsQuizz.map((level) => level.minValue).filter((values) => values <= result);
+    let maxValueResult = Math.max(...valuesLevelsResult);
     
     levelsQuizz.forEach(function(level) {
         if (level.minValue == maxValueResult) {
             levelResultUser = level;
-            console.log('levelResultUser', levelResultUser);
         }
     })
     
     document.querySelector('.js-result-title').innerHTML = `${result}% de acerto: ${levelResultUser.title}`;
     document.querySelector('.js-image-result').src = levelResultUser.image;
     document.querySelector('.js-paragraph-result').innerHTML = levelResultUser.text;
+    
+    setTimeout((function() {
+        console.log(count);
+        document.querySelector(`.js-scroll${count}`).scrollIntoView(true);
+
+        count = 0;
+        numberTotalQuestions = 0;
+        correctAnswer = 0;
+        lastQuestion = undefined;
+        quizzToPlay = undefined;
+        
+    }), 2000);
+    
 
 }
 
