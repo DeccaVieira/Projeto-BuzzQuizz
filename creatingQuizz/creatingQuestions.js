@@ -1,23 +1,97 @@
+//informacoes gerais do quiz
+
+const infoGerais = document.querySelector(".info_gerais")
+
+//HTML do quiz
+const infoQuiz = 
+`
+<article class="js_article">
+    <label> Comece pelo começo </label>
+    <input type="text" class="js_info_titulo" placeholder="Título do seu quizz">
+    <input type="text" class="js_info_img" placeholder="URL da imagem do seu quizz">
+    <input type="text" class="js_info_qtd_perguntas" placeholder="Quantidade de perguntas do quizz">
+    <input type="text" class="js_info_qtd_niveis" placeholder="Quantidade de níveis do quizz">
+</article> 
+`
+//botao de prosseguir
+//chama a função concluirInfo
+//falta fazer passar pra proxima pagina
+const botaoInfo = `<button class="js_button" onclick="concluirInfo()">Prosseguir pra criar perguntas</button>`
+
+
+infoGerais.innerHTML = infoQuiz + botaoInfo
+
 /*
-
-
-//construto de questão
-const question = {
-    title: "titulo", //pelo menos 20 caracteres
-    color: "cor", //cor hexagonal
-    answers: []
+//construtor do quiz - fazer ele pelas informacoes basicas do quiz
+const quiz = {
+    id: "meu id",
+    title: "esse é o titulo do quiz",
+    image: "essa é a imagem do quiz",
+    questions: []
 }
-
-//construtor de reposta
-const answer = {
-    text: "texto da resposta_x", //!== ""
-    image: "URL da resposta_x", //must be url
-    isCorrectAnswer: "boolean" //pelo menos uma answer tem que ser a correta
-}
-
-usar esse pedaço do HTML
-const formulario = document.querySelector(".c-forms")
 */
+
+const quiz = {id:"meu id"}
+
+//funcao chamada quando apertar o botao
+function concluirInfo(){
+    //criar um quiz
+    
+
+    //criar uma lista para validar se os inputs estao dentro do esperado
+    const validacaoFuncao = [false,true,false,false]
+
+    //pegar os valores dos inputs e colocar em variaveis
+    const tituloQuiz = document.querySelector(".js_info_titulo").value
+    const urlImagemInfo = document.querySelector(".js_info_img").value
+    const qtdPerguntas = Number(document.querySelector(".js_info_qtd_perguntas").value)
+    const qtdNiveis = Number(document.querySelector(".js_info_qtd_niveis").value)
+
+
+    //ver se as variaveis passam nos criterios estabelecidos
+    if(tituloQuiz.length >= 20 && tituloQuiz.length <= 65){
+        validacaoFuncao[0] = true
+    }
+
+    //nao tenho certeza ainda
+    //if(typeof(urlImagemInfo) === URL){
+    //    validacaoFuncao[1] = true
+    //}
+
+    //arrumar jaja
+    if(qtdPerguntas >= 1){
+        validacaoFuncao[2] = true
+    }
+
+    if(qtdNiveis >=2){
+        validacaoFuncao[3] = true
+    }
+
+    //ver se existe algum elemento que nao passou nos criterios
+    if(validacaoFuncao.some(elem => elem === false)){
+    alert("voce fez coisa errada")
+    }else {
+
+    //adicionar essas variaveis no objeto quizz se elas passaram nos criterios
+    quiz.title = tituloQuiz
+    quiz.image = urlImagemInfo
+    quiz.questions = qtdPerguntas
+    quiz.niveis = qtdNiveis
+
+
+    //teste
+    console.log("info gerais do quiz ", quiz)
+    }
+
+    //funçao para fazer as perguntas
+    fazerPerguntas()
+            
+}
+
+
+
+//////////////////Perguntas do quiz
+
 
 
 //questions = [question0, question1, ...]
@@ -26,46 +100,48 @@ const questions = []
 //answers = [answer0, answer1,...]
 const answers = []
 
-//construtor do quiz - fazer ele pelas informacoes basicas do quiz
-const quiz = {
-    title: "esse é o titulo do quiz",
-    image: "essa é a imagem do quiz",
-    questions: []
+
+
+
+const formulario = document.querySelector(".perguntas")
+
+
+function fazerPerguntas(){
+for (let i = 1; i < quiz.questions + 1;i++){
+
+//construindo os modelos de pergunta, resposta certa e resposta errada
+
+    formulario.innerHTML += `
+    <article class="js_article">
+
+        <label> Pergunta ${i} </label>
+        <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
+        <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
+    
+
+        <label>Resposta correta</label>
+        <input type="text" class="js_texto_resposta correta" placeholder="Resposta correta">
+        <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
+  
+    
+        <label> Respostas incorretas </label>
+        <input type="text" class="js_texto_resposta incorreta1" placeholder="Resposta incorreta 1">
+        <input type="url" class="js_url_img_resposta incorreta1" placeholder="URL da imagem 1">
+    
+        <input type="text" class="js_texto_resposta incorreta2" placeholder="Resposta incorreta 2">
+        <input type="url" class="js_url_img_resposta incorreta2" placeholder="URL da imagem 2">
+    
+        <input type="text" class="js_texto_resposta incorreta3" placeholder="Resposta incorreta 3">
+        <input type="url" class="js_url_img_resposta incorreta3" placeholder="URL da imagem 3">
+    
+    </article> 
+    `
 }
 
+//adcionar butao com funcao de concluir as perguntas
+formulario.innerHTML += `<button class="js_button" onclick="concluirQuestions()">Prosseguir pra criar níveis</button>`
+}
 
-const pergunta =
-`
-<article class="js_article">
-    <label> Pergunta </label>
-    <input type="text" class="js_texto_pergunta" placeholder="Título da pergunta">
-    <input type="text" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
-</article> 
-`
-
-const resposta_correta =
-    `
-<article class="js_article">
-    <label>Resposta correta</label>
-    <input type="text" class="js_texto_resposta correta" placeholder="Título da resposta correta">
-    <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
-</article> 
-`
-
-
-const resposta_incorreta =
-    `
-<article class="js_article">
-    <label> Resposta incorreta</label>
-    <input type="text" class="js_texto_resposta incorreta" placeholder="Título da resposta incorreta">
-    <input type="url" class="js_url_img_resposta incorreta" placeholder="URL da imagem">
-</article> 
-`
-
-const botao = `<button class="js_button" onclick="criarQuiz()">Prosseguir pra criar níveis</button>`
-
-const formulario = document.querySelector(".c-forms")
-formulario.innerHTML += pergunta + resposta_correta + resposta_incorreta + botao;
 
 
 
@@ -77,48 +153,75 @@ function createRightAnswer() {
     const textoResposta = document.querySelector('.js_texto_resposta.correta')
     const urlResposta = document.querySelector('.js_url_img_resposta.correta')
 
+    //conferir criterios
     if (textoResposta.value !== "") {
-        answer.text = textoResposta.value, //!== ""
-        answer.image = urlResposta.value, //must be url
-        answer.isCorrectAnswer = true //pelo menos uma answer tem que ser a correta
-
-        answers.push(answer)
+        answer.text = textoResposta.value
 
     } else {
         alert("você precisa escrever algo para a resposta")
     }
 
+    //nao tenho certeza ainda
+    //if(typeof(urlResposta) === URL){
+        answer.image = urlResposta.value
+    //}else{
+    //    alert("voce nao colocou um URL valido")
+    //}
+
+    answer.isCorrectAnswer = true
+    //adicionar na lista de respostas
+    answers.push(answer)
     
+    //teste
     console.log("lista de resposta certa: ", answers)
 }
 
+
+//como chamar a funcao para varias perguntas?
 function createWrongAnswer() {
 
+    
+
+    for (let i=1; i <= 3;i++){
+    
     const answer = {}
+    //criar as variaveis com os inputs das respostas
 
-    //criar as variaveis com os inputs das respostaas
-    const textoResposta = document.querySelector('.js_texto_resposta.incorreta')
-    const urlResposta = document.querySelector('.js_url_img_resposta.incorreta')
+    const textoResposta = document.querySelector(`.js_texto_resposta.incorreta${i}`)
+    const urlResposta = document.querySelector(`.js_url_img_resposta.incorreta${i}`)
 
-    if (textoResposta.value !== "") {
-        answer.text = textoResposta.value, //!== ""
-        answer.image = urlResposta.value, //must be url
-        answer.isCorrectAnswer = false //pelo menos uma answer tem que ser a correta
-
-        answers.push(answer)
+    //conferir criterios
+    if (textoResposta.value !== " ") {
+        answer.text = textoResposta.value
 
     } else {
         alert("você precisa escrever algo para a resposta")
     }
 
+    //nao tenho certeza ainda
+    //if(typeof(urlResposta) === URL){
+        answer.image = urlResposta.value
+    //}else{
+    //    alert("voce nao colocou um URL valido")
+    //}
+
+    answer.isCorrectAnswer = false
+    //adicionar na lista de respostas
+    answers.push(answer)
     
+    }
+
+    
+    //teste
     console.log("lista de resposta errada: ", answers)
     
 }
 
-const question = { }
-function createTextQuestion() {
 
+const question = {}
+
+function createTextQuestion() {
+   
     
 
     //criar as variaveis com os inputs das perguntas
@@ -132,6 +235,7 @@ function createTextQuestion() {
         question.answers = []
 
 
+
     } else {
         alert("o texto da pergunta deve ter pelo menos 20 caracteres")
     }
@@ -141,6 +245,7 @@ function createTextQuestion() {
 }
 
 function createQuestion() {
+   
     if (answers.length >= 2 && answers.length <= 4) {
         //criar dois contadores para garantir as condiçoes de resposta
         let correto = 0
@@ -169,14 +274,18 @@ function createQuestion() {
 }
 
 
-function criarQuiz(){
+function concluirQuestions(){
+    
+
+    for(let i=0; i< quiz.questions;i++){
     
     createRightAnswer()
     createWrongAnswer()
     createTextQuestion()
     createQuestion()
-    console.log(questions)
+    }
+    
+    console.log("esse é o obj questions: " , questions)
     quiz.questions = questions
-    console.log(quiz)
-
+    console.log("esse é o obj quiz: " ,quiz)
 }
