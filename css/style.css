@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
+
 body {
-    display: flex;
-    justify-content: center;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 23px;
     display: flex;
+    justify-content: center;
     align-items: center;
 
     background: #FAFAFA;
@@ -26,7 +26,7 @@ body {
     background: #EC362D;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-    font-size: 3rem;
+    font-size: 30vw;
     color: #FFFFFF;
 }
 
@@ -39,23 +39,22 @@ body {
 
 .c-main {
     margin-top: 95px;
-    width: clamp(375px, 95%, 1100px);
+    width: clamp(375px, 100%, 1100px);
 
-    display: flex;
     flex-direction: column;
-    align-items: center;
     flex-wrap: wrap;
+
 }
 
 .c-main__title {
     width: 100%;
     font-weight: 700;
-    margin: 2rem 0 1.5rem 10px;
+    margin: 20px 0 20px 40px;
 }
 
 .c-main__create {
     width: 100%;
-    margin: max(5%, 0px);
+    margin: 35px 0;
 
 }
 
@@ -63,7 +62,8 @@ body {
     border: 1px dashed #D5D5D5;
     border-radius: 5px;
     height: 181px;
-    width: clamp(340px, 50%, 1050px);
+    margin: 5px 10px;
+    width: clamp(300px, 48vw, 1050px);
     background-color: #FAFAFA;
     flex-direction: column;
 }
@@ -86,7 +86,7 @@ body {
 .c-main__header-creations ion-icon {
     color: #EC362D;
     font-size: 30px;
-    margin-left: 10px;
+    margin: 0 20px 0 10px;
     cursor:pointer;
 }
 
@@ -94,8 +94,7 @@ body {
     font-weight: 700;
     display: flex;
     align-items: center;
-    text-align: center;
-    margin-left: 1rem;
+    margin-left: 20px;
 }
 
 .c-main__header-creations {
@@ -106,9 +105,8 @@ body {
 .c-main__creations-data {
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
-    grid-area: data;
 }
 
 .c-main__creations {
@@ -121,14 +119,15 @@ body {
 
 
 .c-main__database {
+    width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
 .c-main__quizz {
     position: relative;
-    width: 340px;
+    width: min(100%, 340px);
     height: 181px;
     margin: 5px 10px;
 
@@ -141,6 +140,7 @@ body {
 
 .c-quizz__title {
     position: absolute;
+    word-break: break-word;
     bottom: 15px;
     left: 15px;
     color: #FFFFFF;
@@ -180,7 +180,6 @@ body {
 .c-play__header{
     width: 100%;
     height: clamp(146px, 20vw, 227px);
-    max-height: 227px;
 
     background-repeat: no-repeat;
     background-size: 100%;
@@ -189,9 +188,8 @@ body {
 .c-play__header h1 {
     color: #FFFFFF;
     font-size: clamp(20px, 3.5vw, 39px);
+    padding: 0 21px;
 }
-
-/* max() clamp() min() */
 
 .c-play__restart-button {
     margin: 20px 0;
@@ -215,12 +213,17 @@ body {
 }
 
 
-.c-play__result img, .c-play__result p {
+.c-play__result p {
     word-wrap: break-word;
+}
+
+.c-play__result img, .c-play__result p{
+    box-sizing: border-box;
     width: 50%;
     height: 100%;
-    margin: 10px;
+    padding: 10px;
 }
+
 
 .c-play__result-content {
     width: 100%;
@@ -233,6 +236,8 @@ body {
     margin: 10px;
     font-weight: 700;
     color: #FFFFFF;
+    padding: 0 21px;
+    word-break: break-word;
 }
 
 .c-play_result-title {
@@ -259,8 +264,9 @@ body {
 }
 
 .c-play__box-option p {
+    box-sizing: border-box;
     word-break: break-word;
-    margin: 10px;
+    padding: 10px;
 
 }
 
@@ -270,47 +276,6 @@ body {
     text-align: center;
 
     cursor: pointer;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.u-pointer-events-none {
-    pointer-events: none !important;
-}
-
-.u-all-center {
-    display: flex;
-    place-content: center;
-    align-items: center;
-}
-
-.is-freezed {
-    position: fixed;
-    top: 0;
-
-    height: 100%;
-    width: 100%;
-    
-    overflow: hidden;
-}
-
-.is-hidden {
-    display: none;
 }
 
 .c-forms {
@@ -324,6 +289,19 @@ body {
     display: none;
 
     background-color: green;
+}
+
+
+
+
+.u-all-center {
+    display: flex;
+    place-content: center;
+    align-items: center;
+}
+
+.is-hidden {
+    display: none;
 }
 
 @media (min-width: 1157px) {
