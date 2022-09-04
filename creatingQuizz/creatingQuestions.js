@@ -8,11 +8,12 @@ const infoQuiz =
 <article class="js_article">
     <h1> Comece pelo começo </h1>
     
+    <div>
     <input type="text" class="js_info_titulo" placeholder="Título do seu quizz">
     <input type="text" class="js_info_img" placeholder="URL da imagem do seu quizz">
     <input type="text" class="js_info_qtd_perguntas" placeholder="Quantidade de perguntas do quizz">
     <input type="text" class="js_info_qtd_niveis" placeholder="Quantidade de níveis do quizz">
-    
+    </div>
     
 </article> 
 `
@@ -83,24 +84,26 @@ function concluirInfo() {
 
         //teste
         console.log("info gerais do quiz ", quiz)
+
+        //funçao para fazer as perguntas
+        fazerPerguntas()
     }
 
-    //funçao para fazer as perguntas
-    fazerPerguntas()
+    
 
 }
 
 
 
-//////////////////Perguntas do quiz
+//////////////////Perguntas do quiz////////////////////////////////////
 
 
 
 //questions = [question0, question1, ...]
-const questions = []
+let questions = [];
 
 //answers = [answer0, answer1,...]
-const answers = []
+let answers = [];
 
 
 
@@ -109,12 +112,14 @@ const formulario = document.querySelector(".perguntas")
 
 
 function fazerPerguntas() {
+    //pq nao ta escondendo o quiz?
+    infoGerais.classList.add(".is-hidden")
     for (let i = 1; i < quiz.questions + 1; i++) {
 
         //construindo os modelos de pergunta, resposta certa e resposta errada
 
         formulario.innerHTML += `
-    <article class="js_article">
+        <article class="js_article pergunta${i}">
 
         <label> Pergunta ${i} </label>
         <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
@@ -147,13 +152,13 @@ function fazerPerguntas() {
 
 
 
-function createRightAnswer() {
+function createRightAnswer(numero) {
 
     const answer = {}
 
     //criar as variaveis com os inputs das respostaas
-    const textoResposta = document.querySelector('.js_texto_resposta.correta')
-    const urlResposta = document.querySelector('.js_url_img_resposta.correta')
+    const textoResposta = document.querySelector(`.pergunta${numero} > .js_texto_resposta.correta`)
+    const urlResposta = document.querySelector(`.pergunta${numero} > .js_url_img_resposta.correta`)
 
     //conferir criterios
     if (textoResposta.value !== "") {
@@ -180,17 +185,17 @@ function createRightAnswer() {
 
 
 //como chamar a funcao para varias perguntas?
-function createWrongAnswer() {
+function createWrongAnswer(numero) {
 
 
 
     for (let i = 1; i <= 3; i++) {
 
-        const answer = {}
+        let answer = {}
         //criar as variaveis com os inputs das respostas
 
-        const textoResposta = document.querySelector(`.js_texto_resposta.incorreta${i}`)
-        const urlResposta = document.querySelector(`.js_url_img_resposta.incorreta${i}`)
+        const textoResposta = document.querySelector(`.pergunta${numero} > .js_texto_resposta.incorreta${i}`)
+        const urlResposta = document.querySelector(`.pergunta${numero} > .js_url_img_resposta.incorreta${i}`)
 
         //conferir criterios
         if (textoResposta.value !== " ") {
@@ -211,6 +216,7 @@ function createWrongAnswer() {
         //adicionar na lista de respostas
         answers.push(answer)
 
+
     }
 
 
@@ -220,33 +226,32 @@ function createWrongAnswer() {
 }
 
 
-const question = {}
 
 
-function createTextQuestion() {
 
+function createQuestion(numero) {
+
+    const question = {}
 
     //criar as variaveis com os inputs das perguntas
-    const textoPergunta = document.querySelector('.js_texto_pergunta');
-    const corPergunta = document.querySelector('.js_cor_pergunta');
+    const textoPergunta = document.querySelector(`.pergunta${numero} > .js_texto_pergunta`);
+    const corPergunta = document.querySelector(`.pergunta${numero} > .js_cor_pergunta`);
 
     //condição para o textoPergunta ter mais de 20 caracteres, se True fazer o objeto com a questão
     if (textoPergunta.value.length >= 20) {
-        question.title = textoPergunta.value, //pelo menos 20 caracteres
-            question.color = corPergunta.value, //cor hexagonal
-            question.answers = []
-
-
-
+        question.title = textoPergunta.value //pelo menos 20 caracteres
     } else {
         alert("o texto da pergunta deve ter pelo menos 20 caracteres")
     }
 
-    return question
-    console.log("lista de questao: " + question)
-}
+//    if(condição da cor){
+//        colocar a cor
+//    }
 
-function createQuestion() {
+    question.color = corPergunta.value, //cor hexagonal
+
+
+    console.log("question" + question)
 
 
     if (answers.length >= 2 && answers.length <= 4) {
@@ -256,7 +261,7 @@ function createQuestion() {
 
         //rodar a lista de resposta e ver se tem resposta certa e errada
         for (let i = 0; i < answers.length; i++) {
-            if (answers[i].isCorrectAnswer == true) {
+            if (answers[i].isCorrectAnswer === true) {
                 correto += 1
             } else {
                 incorreto += 1
@@ -274,6 +279,7 @@ function createQuestion() {
 
     }
 
+
     console.log("lista de questoes", questions)
 }
 
@@ -281,12 +287,13 @@ function createQuestion() {
 function concluirQuestions() {
 
 
-    for (let i = 0; i < quiz.questions; i++) {
+    for (let i = 1; i < quiz.questions+1; i++) {
 
-        createRightAnswer()
-        createWrongAnswer()
-        createTextQuestion()
-        createQuestion()
+        createRightAnswer(i)
+        createWrongAnswer(i)
+        createQuestion(i)
+        answers = []
+        
 
     }
     
@@ -339,11 +346,12 @@ function fazerNiveis() {
         <article class="js_article">
     
             <label> Nível ${i} </label>
+            <div> 
             <input type="text" class="js_texto_nivel" placeholder="Título do nível">
             <input type="text" class="js_porcentagem_nivel" placeholder="% de acerto da pergunta">
             <input type="url" class="js_url_img_nivel" placeholder="URL da imagem do nivel">
             <input type="text" class="js_desc_nivel" placeholder="Resposta correta">
-            
+            </div>
         </article> 
         `
     }
