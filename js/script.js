@@ -1,12 +1,12 @@
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
+
 const boxMyQuizzes = document.querySelector('.js-main__my-quizzes');
 const boxCreateQuizz = document.querySelector('.js-main__create'); 
 
-//
-const listMyQuizzes = [12223, 12224, 12221];
-//
+const myStorage = localStorage;
+const listMyQuizzes = [];
 
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
 let numberTotalQuestions = 0;
@@ -17,17 +17,13 @@ let lastQuestion;
 let justIdQuizz;
 let quizzToPlay;
 
+// usar essa função para gravar o quizz no LocalStorage
+const sentToLocalStorage = (idQuizz) => myStorage.setItem(idQuizz, JSON.stringify(idQuizz));
+//
 
-
-
-/* const meuStorage = localStorage;
-const idd = 213432;
-const sdkljdsa = {
-    nome: 'rodrigo',
-    idade: 123
-};
-meuStorage.setItem(idd, JSON.stringify(sdkljdsa));
-console.log(meuStorage.getItem(idd)) */
+// usar essa função para enviar pegar um quizz do LocalStorage e armazenar uma lista;
+const getToLocalStorage = (idQuizz) => listMyQuizzes.push(JSON.parse(myStorage.getItem(idQuizz)));
+//
 
 makeGet('/quizzes', 'allQuizzes');
 
