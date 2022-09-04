@@ -1,6 +1,12 @@
 const screenCreateQuizz = document.querySelector('.js-createQuizz');
 const screenPlayQuizz = document.querySelector('.js-playQuizz');
 const screenMain = document.querySelector('.js-mainQuizzes');
+const boxMyQuizzes = document.querySelector('.js-main__my-quizzes');
+const boxCreateQuizz = document.querySelector('.js-main__create'); 
+
+//
+const listMyQuizzes = [12223, 12224, 12221];
+//
 
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
 let numberTotalQuestions = 0;
@@ -10,7 +16,6 @@ let count = 0;
 let lastQuestion;
 let justIdQuizz;
 let quizzToPlay;
-
 
 
 
@@ -67,22 +72,48 @@ function errorCorrections(answer) {
 function renderAllQuizzes(answer) {
 
     const listOfQuizz = answer.data;
-    const sectionDatabase = document.querySelector('.js-databaseOfQuizzes');
+    const sectionAllDatabase = document.querySelector('.js-databaseOfQuizzes');
+    const sectionMyDatabase = document.querySelector('.js-databaseCreations');
     // console.log(listOfQuizz);
 
     listOfQuizz.forEach(function(quizz) {
-        sectionDatabase.innerHTML += `
-            <article 
-                    
-                class="c-main__quizz js-quizz" 
-                id="quizz${quizz.id}"
-                style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
-                onclick="openQuiz(this)">
-                
+        const conditionCreationQuizz = listMyQuizzes.includes(quizz.id);
 
-                <h1 class="c-quizz__title">${quizz.title}</h1>
-            </article>  
-        `
+        if (conditionCreationQuizz) {
+            sectionMyDatabase.innerHTML += `
+                <article 
+                        
+                    class="c-main__quizz js-quizz" 
+                    id="quizz${quizz.id}"
+                    style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
+                    onclick="openQuiz(this)">
+                    
+
+                    <h1 class="c-quizz__title">${quizz.title}</h1>
+                </article>  
+        `;
+
+        } else {
+
+            sectionAllDatabase.innerHTML += `
+                <article 
+                        
+                    class="c-main__quizz js-quizz" 
+                    id="quizz${quizz.id}"
+                    style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
+                    onclick="openQuiz(this)">
+                    
+    
+                    <h1 class="c-quizz__title">${quizz.title}</h1>
+                </article>  
+            `;
+        }
+
+        if (sectionMyDatabase.innerHTML !== '') {
+            boxMyQuizzes.style.display = 'flex';
+            boxCreateQuizz.style.display = 'none';
+
+        }
     })
     
     return;

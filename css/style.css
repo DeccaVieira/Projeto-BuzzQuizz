@@ -112,7 +112,7 @@ body {
 .c-main__creations {
     position: relative;
     width: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
 }
 
