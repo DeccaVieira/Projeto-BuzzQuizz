@@ -1,10 +1,46 @@
-.js_article{
-    display: flex;
-    flex-direction: column;
+@import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{font-family: 'Roboto', sans-serif;}
+
+.info_gerais,
+.perguntas,
+.niveis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+
+.js_article{
+  width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+
+.js_article h1{
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+}
+
+.js_article input{
+  width: 100%;
+  height: 45px;
+
+  background: #FFFFFF;
+  border: 1px solid #D1D1D1;
+  border-radius: 5px;
+  font-style: italic;
+  
+  margin-bottom: 9px;
+}
+
+
 .js_button{
-  width: 323px;
+  width: 80%;
   height: 54px;  
   background-color: red;
   color: white;
