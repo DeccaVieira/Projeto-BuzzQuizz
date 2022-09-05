@@ -10,7 +10,7 @@ const infoQuiz =
     
     <div>
     <input type="text" class="js_info_titulo" placeholder="Título do seu quizz">
-    <input type="text" class="js_info_img" placeholder="URL da imagem do seu quizz">
+    <input type="url" class="js_info_img" placeholder="URL da imagem do seu quizz">
     <input type="text" class="js_info_qtd_perguntas" placeholder="Quantidade de perguntas do quizz">
     <input type="text" class="js_info_qtd_niveis" placeholder="Quantidade de níveis do quizz">
     </div>
@@ -58,11 +58,11 @@ function concluirInfo() {
     }
 
     
-    if(urlImagemInfo[-4] === ".jpg"){
+    if(urlImagemInfo.includes(".jpg")){
         validacaoFuncao[1] = true
     }
 
-    if (qtdPerguntas >= 3) {
+    if (qtdPerguntas >= 1) {
         validacaoFuncao[2] = true
     }
 
@@ -115,7 +115,8 @@ const formulario = document.querySelector(".perguntas")
 
 function fazerPerguntas() {
     //pq nao ta escondendo o quiz?
-    infoGerais.classList.add(".is-hidden")
+    infoGerais.innerHTML=""
+    formulario.innerHTML += `<h1 class="crie_perguntas_txt">Crie suas perguntas</h1>`
     for (let i = 1; i < quiz.questions + 1; i++) {
 
         //construindo os modelos de pergunta, resposta certa e resposta errada
@@ -123,26 +124,34 @@ function fazerPerguntas() {
         formulario.innerHTML += `
         <article class="js_article pergunta${i}">
 
+
+        
         <label> Pergunta ${i} </label>
+        <div>
         <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
         <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
-    
+        </div>
 
         <label>Resposta correta</label>
+        <div>
         <input type="text" class="js_texto_resposta correta" placeholder="Resposta correta">
         <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
-  
+        </div>
     
         <label> Respostas incorretas </label>
+        <div>
         <input type="text" class="js_texto_resposta incorreta1" placeholder="Resposta incorreta 1">
         <input type="url" class="js_url_img_resposta incorreta1" placeholder="URL da imagem 1">
-    
+        </div>
+
+        <div>
         <input type="text" class="js_texto_resposta incorreta2" placeholder="Resposta incorreta 2">
         <input type="url" class="js_url_img_resposta incorreta2" placeholder="URL da imagem 2">
     
         <input type="text" class="js_texto_resposta incorreta3" placeholder="Resposta incorreta 3">
         <input type="url" class="js_url_img_resposta incorreta3" placeholder="URL da imagem 3">
-    
+        </div>
+
     </article> 
     `
     }
@@ -160,8 +169,8 @@ function createRightAnswer(numero) {
     const answer = {}
 
     //criar as variaveis com os inputs das respostaas
-    const textoResposta = document.querySelector(`.pergunta${numero} > .js_texto_resposta.correta`)
-    const urlResposta = document.querySelector(`.pergunta${numero} > .js_url_img_resposta.correta`)
+    const textoResposta = document.querySelector(`.pergunta${numero} > div > .js_texto_resposta.correta`)
+    const urlResposta = document.querySelector(`.pergunta${numero} > div > .js_url_img_resposta.correta`)
 
     //conferir criterios
     if (textoResposta.value !== "") {
@@ -174,8 +183,8 @@ function createRightAnswer(numero) {
     }
 
     //nao tenho certeza ainda
-    if(urlResposta[-4] === ".jpg"){
-    answer.image = urlResposta.value
+    if(urlResposta.value.includes(".jpg")){
+        answer.image = urlResposta.value
     }else{
         alerta+="\nvoce nao colocou um URL valido"
     }
@@ -200,8 +209,8 @@ function createWrongAnswer(numero) {
         let answer = {}
         //criar as variaveis com os inputs das respostas
 
-        const textoResposta = document.querySelector(`.pergunta${numero} > .js_texto_resposta.incorreta${i}`)
-        const urlResposta = document.querySelector(`.pergunta${numero} > .js_url_img_resposta.incorreta${i}`)
+        const textoResposta = document.querySelector(`.pergunta${numero} > div > .js_texto_resposta.incorreta${i}`)
+        const urlResposta = document.querySelector(`.pergunta${numero} > div > .js_url_img_resposta.incorreta${i}`)
 
         //conferir criterios
         if (textoResposta.value !== "") {
@@ -214,10 +223,10 @@ function createWrongAnswer(numero) {
         }
 
         //nao tenho certeza ainda
-        if(urlResposta[-4] === ".jpg"){
+        if(urlResposta.value.includes(".jpg")){
         answer.image = urlResposta.value
         }else{
-            alert("voce nao colocou um URL valido")
+            alerta += `\nresposta errada numero ${i}:voce nao colocou um URL valido`
         }
 
         answer.isCorrectAnswer = false
@@ -244,8 +253,8 @@ function createQuestion(numero) {
     const question = {}
 
     //criar as variaveis com os inputs das perguntas
-    const textoPergunta = document.querySelector(`.pergunta${numero} > .js_texto_pergunta`);
-    const corPergunta = document.querySelector(`.pergunta${numero} > .js_cor_pergunta`);
+    const textoPergunta = document.querySelector(`.pergunta${numero} > div > .js_texto_pergunta`);
+    const corPergunta = document.querySelector(`.pergunta${numero} > div > .js_cor_pergunta`);
 
     //condição para o textoPergunta ter mais de 20 caracteres, se True fazer o objeto com a questão
     if (textoPergunta.value.length >= 20) {
@@ -368,6 +377,8 @@ const pagLevel = document.querySelector(".niveis")
 
 //chamada quando partar o botao da sessao de perguntas
 function createLevel() {
+    formulario.innerHTML = ""
+    pagLevel.innerHTML = `<h1 class"crie_perguntas_txt">Agora, decida os níveis</h1>`
     for (let i = 1; i < quiz.levels + 1; i++) {
 
         //construindo os modelos de pergunta, resposta certa e resposta errada
@@ -414,7 +425,7 @@ function verifyLevels() {
         //Criterios pre-estabelecidos
         //1° texto
         if (textoLevel.length >= 10) {
-            level.text = textoLevel
+            level.title = textoLevel
             validacaoLevel = true
         } else {
             alertaNivel += "\nvoce colocou menos de 10 caracteres no texto do nivel"
@@ -431,7 +442,7 @@ function verifyLevels() {
         }
 
         //3°url da img
-        if(urlLevel[-4] === ".jpg"){
+        if(urlLevel.includes(".jpg")){
         level.image = urlLevel
         validacaoLevel = true
         }else{
