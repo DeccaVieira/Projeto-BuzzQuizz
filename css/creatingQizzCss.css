@@ -129,6 +129,14 @@
 
 }
 
+.niveis h1 {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  text-align: center;
+  padding-bottom: 27px;
+  padding-top: clamp(40px, 10vw, 71px);
+}
 
 
 

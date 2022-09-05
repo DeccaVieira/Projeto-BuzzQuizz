@@ -32,7 +32,7 @@ function makePost(endUrl, body) {
     let url = templateURL + endUrl;
     const promise = axios.post(url, body);
 
-    promise.then( outraCoisa );
+    promise.then( postMyQuizz );
     promise.catch( errorCorrections );
 
 }
@@ -529,6 +529,7 @@ function createRightAnswer(numero) {
     //nao tenho certeza ainda
     if (urlResposta.value.includes(".jpg")) {
         answer.image = urlResposta.value
+        validacaoResposta = true
     } else {
         alerta += "\nvoce nao colocou um URL valido"
         validacaoResposta = false
@@ -570,6 +571,7 @@ function createWrongAnswer(numero) {
         //nao tenho certeza ainda
         if (urlResposta.value.includes(".jpg")) {
             answer.image = urlResposta.value
+            validacaoResposta = true
         } else {
             alerta += `\nresposta errada numero ${i}:voce nao colocou um URL valido`
             validacaoResposta = false
@@ -617,21 +619,21 @@ function createQuestion(numero) {
             validacaoCor = testeCor.includes(corPergunta.value[i])
             if (validacaoCor === false) {
                 alerta += "\nvoce nao colocou uma cor valida"
-                return false
-                break
+                return true
             } else {
                 question.color = "#"+corPergunta.value //cor hexagonal
             }
         }
     } else {
-        return false
+        return true
     }
 
 
 
     console.log("question" + question)
 
-
+    
+    console.log('cccccccccccccccc',answers)
     if (answers.length >= 2 && answers.length <= 4) {
         //criar dois contadores para garantir as condiçoes de resposta
         let correto = 0
@@ -641,6 +643,7 @@ function createQuestion(numero) {
         for (let i = 0; i < answers.length; i++) {
             if (answers[i].isCorrectAnswer === true) {
                 correto += 1
+                console.log(answers[i])
             } else {
                 incorreto += 1
             }
@@ -672,12 +675,13 @@ function concluirQuestions() {
 
     for (let i = 1; i < quiz.questions + 1; i++) {
 
+        answers = []
         createRightAnswer(i)
         createWrongAnswer(i)
         //chama a funcao createQuestion e pega o valor retornado na variavel (true/false)
+        console.log('bbbbbbbbbbb')
+        createQuestion(i);
         validacao = createQuestion(i)
-        answers = []
-
 
     }
 
@@ -687,11 +691,13 @@ function concluirQuestions() {
 
         //teste
         console.log("esse é o obj questions: ", questions)
+        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
         console.log("esse é o obj quiz: ", quiz)
-
+        
         createLevel()
     } else {
         alert(alerta)
+        console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBb')
     }
 
 
@@ -742,12 +748,12 @@ function createLevel() {
         pagLevel.innerHTML += `
         <article class="js_article">
     
-            <label> Nível ${i} </label>
-            <div class="nivel${i}"> 
+        <div class="nivel${i}"> 
+            <label>Nível ${i} </label>
             <input type="text" class="js_texto_nivel" placeholder="Título do nível">
             <input type="text" class="js_porcentagem_nivel" placeholder="% de acerto da pergunta">
             <input type="url" class="js_url_img_nivel" placeholder="URL da imagem do nivel">
-            <input type="text" class="js_desc_nivel" placeholder="Resposta correta">
+            <input type="text" class="js_desc_nivel" placeholder="Descrição do nível">
             </div>
         </article> 
         `
@@ -789,7 +795,7 @@ function verifyLevels() {
         }
 
         //2°porcentagem
-        if (porcentagemLevel > 0 && porcentagemLevel < 100) {
+        if (porcentagemLevel >= 0 && porcentagemLevel <= 100) {
             level.minValue = porcentagemLevel
             validacaoLevel = true
         } else {
@@ -820,7 +826,7 @@ function verifyLevels() {
             levels.push(level)
             level = {}
         } else {
-            alert(alerta)
+            alert(alertaNivel)
         }
     }
 
@@ -841,11 +847,9 @@ function verifyLevels() {
 //finaliza o quiz
 function endQuiz() {
 
-    let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
     ////posta o quiz no servidor
-    //api.makePost("/quizzes",quiz)
+    makePost("/quizzes", quiz)
     ////carrega a pagina de sucesso do quiz
-    carregarSucesso()
 
 
 }
@@ -854,16 +858,28 @@ function endQuiz() {
 
 
 const sucessoQuiz = document.querySelector(".sucesso")
-function carregarSucesso(){
-pagLevel.innerHTML = ""
+function postMyQuizz(answer){
+    console.log('normal', answer)
 
-sucessoQuiz.innerHTML+=
-`
-<h1>Seu quizz está pronto!</h1>
--q
-<p>Voltar a home</p>
-`
-//ainda dentro das aspas - colcoar no lugar do -q
-// colocar para ver o quiz
-//botao de acessar o quiz
+    console.log(' data   ',answer.data)
+    pagLevel.innerHTML = ""
+
+    sucessoQuiz.innerHTML+=
+    `
+    <h1>Seu quizz está pronto!</h1>
+    <article 
+                            
+    class="c-main__quizz js-quizz" 
+    id="quizz${quizz.id}"
+    style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
+    onclick="openQuiz(this)">
+
+
+    <h1 class="c-quizz__title">${quizz.title}</h1>
+    </article>  
+    <p>Voltar a home</p>
+    `
+    //ainda dentro das aspas - colcoar no lugar do -q
+    // colocar para ver o quiz
+    //botao de acessar o quiz
 }
