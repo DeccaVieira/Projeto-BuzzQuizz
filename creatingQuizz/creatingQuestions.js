@@ -43,7 +43,7 @@ function concluirInfo() {
 
 
     //criar uma lista para validar se os inputs estao dentro do esperado
-    const validacaoFuncao = [false, true, false, false]
+    const validacaoFuncao = [false, false, false, false]
 
     //pegar os valores dos inputs e colocar em variaveis
     const tituloQuiz = document.querySelector(".js_info_titulo").value
@@ -129,7 +129,7 @@ function fazerPerguntas() {
         <label> Pergunta ${i} </label>
         <div>
         <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
-        <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
+        <input type="text" class="js_cor_pergunta" pattern="[#]{1}[0-1-2-3-4-5-6-7-8-9-a-b-c-d-e-f]{6}" placeholder="Cor de fundo da pergunta">
         </div>
 
         <label>Resposta correta</label>
@@ -142,9 +142,7 @@ function fazerPerguntas() {
         <div>
         <input type="text" class="js_texto_resposta incorreta1" placeholder="Resposta incorreta 1">
         <input type="url" class="js_url_img_resposta incorreta1" placeholder="URL da imagem 1">
-        </div>
 
-        <div>
         <input type="text" class="js_texto_resposta incorreta2" placeholder="Resposta incorreta 2">
         <input type="url" class="js_url_img_resposta incorreta2" placeholder="URL da imagem 2">
     
@@ -187,6 +185,7 @@ function createRightAnswer(numero) {
         answer.image = urlResposta.value
     }else{
         alerta+="\nvoce nao colocou um URL valido"
+        validacaoResposta = false
     }
 
     answer.isCorrectAnswer = true
@@ -227,6 +226,7 @@ function createWrongAnswer(numero) {
         answer.image = urlResposta.value
         }else{
             alerta += `\nresposta errada numero ${i}:voce nao colocou um URL valido`
+            validacaoResposta = false
         }
 
         answer.isCorrectAnswer = false
@@ -447,6 +447,7 @@ function verifyLevels() {
         validacaoLevel = true
         }else{
             alertaNivel += "\nvoce nao colocou um URL valido"
+            validacaoLevel = false
         }
 
         //4° descricao do Level
