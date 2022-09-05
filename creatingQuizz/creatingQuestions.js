@@ -5,14 +5,14 @@ const infoGerais = document.querySelector(".info_gerais")
 //HTML do quiz
 const infoQuiz =
     `
-<article class="js_article">
+<article class="c-forms__infos-quizz js_article">
     <h1> Comece pelo começo </h1>
     
     <div>
-    <input type="text" class="js_info_titulo" placeholder="Título do seu quizz">
-    <input type="url" class="js_info_img" placeholder="URL da imagem do seu quizz">
-    <input type="text" class="js_info_qtd_perguntas" placeholder="Quantidade de perguntas do quizz">
-    <input type="text" class="js_info_qtd_niveis" placeholder="Quantidade de níveis do quizz">
+    <input type="text" class="js_info_titulo" placeholder="    Título do seu quizz">
+    <input type="url" class="js_info_img" placeholder="    URL da imagem do seu quizz">
+    <input type="text" class="js_info_qtd_perguntas" placeholder="    Quantidade de perguntas do quizz">
+    <input type="text" class="js_info_qtd_niveis" placeholder="    Quantidade de níveis do quizz">
     </div>
     
 </article> 
@@ -122,34 +122,36 @@ function fazerPerguntas() {
         //construindo os modelos de pergunta, resposta certa e resposta errada
 
         formulario.innerHTML += `
-        <article class="js_article pergunta${i}">
+        <article class="c-forms__forms-questions js_article pergunta${i}">
 
 
         
-        <label> Pergunta ${i} </label>
         <div>
-        <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
-        <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
-        </div>
-
-        <label>Resposta correta</label>
-        <div>
-        <input type="text" class="js_texto_resposta correta" placeholder="Resposta correta">
-        <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
-        </div>
-    
-        <label> Respostas incorretas </label>
-        <div>
-        <input type="text" class="js_texto_resposta incorreta1" placeholder="Resposta incorreta 1">
-        <input type="url" class="js_url_img_resposta incorreta1" placeholder="URL da imagem 1">
+            <label> Pergunta ${i} </label>
+            <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
+            <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
         </div>
 
         <div>
-        <input type="text" class="js_texto_resposta incorreta2" placeholder="Resposta incorreta 2">
-        <input type="url" class="js_url_img_resposta incorreta2" placeholder="URL da imagem 2">
+            <label>Resposta correta</label>
+            <input type="text" class="js_texto_resposta correta" placeholder="Resposta correta">
+            <input type="url" class="js_url_img_resposta correta" placeholder="URL da imagem">
+        </div>
     
-        <input type="text" class="js_texto_resposta incorreta3" placeholder="Resposta incorreta 3">
-        <input type="url" class="js_url_img_resposta incorreta3" placeholder="URL da imagem 3">
+        <div>
+            <label> Respostas incorretas </label>
+            <input type="text" class="js_texto_resposta incorreta1" placeholder="Resposta incorreta 1">
+            <input type="url" class="js_url_img_resposta incorreta1" placeholder="URL da imagem 1">
+        </div>
+
+        <div>
+            <input type="text" class="js_texto_resposta incorreta2" placeholder="Resposta incorreta 2">
+            <input type="url" class="js_url_img_resposta incorreta2" placeholder="URL da imagem 2">
+        </div>
+        
+        <div>
+            <input type="url" class="js_url_img_resposta incorreta3" placeholder="URL da imagem 3">
+            <input type="text" class="js_texto_resposta incorreta3" placeholder="Resposta incorreta 3">
         </div>
 
     </article> 
