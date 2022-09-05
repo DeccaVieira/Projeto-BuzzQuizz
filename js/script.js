@@ -475,7 +475,7 @@ function fazerPerguntas() {
         <div>
             <label> Pergunta ${i} </label>
             <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
-            <input type="color" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
+            <input type="text" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
         </div>
 
         <div>
