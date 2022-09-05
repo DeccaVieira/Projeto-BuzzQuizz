@@ -57,8 +57,8 @@ function concluirInfo() {
         validacaoFuncao[0] = true
     }
 
-    
-    if(urlImagemInfo.includes(".jpg")){
+
+    if (urlImagemInfo.includes(".jpg")) {
         validacaoFuncao[1] = true
     }
 
@@ -115,7 +115,7 @@ const formulario = document.querySelector(".perguntas")
 
 function fazerPerguntas() {
     //pq nao ta escondendo o quiz?
-    infoGerais.innerHTML=""
+    infoGerais.innerHTML = ""
     formulario.innerHTML += `<h1 class="crie_perguntas_txt">Crie suas perguntas</h1>`
     for (let i = 1; i < quiz.questions + 1; i++) {
 
@@ -129,7 +129,7 @@ function fazerPerguntas() {
         <label> Pergunta ${i} </label>
         <div>
         <input type="text" class="js_texto_pergunta" placeholder="Texto da pergunta">
-        <input type="text" class="js_cor_pergunta" pattern="[#]{1}[0-1-2-3-4-5-6-7-8-9-a-b-c-d-e-f]{6}" placeholder="Cor de fundo da pergunta">
+        <input type="text" class="js_cor_pergunta" placeholder="Cor de fundo da pergunta">
         </div>
 
         <label>Resposta correta</label>
@@ -181,10 +181,10 @@ function createRightAnswer(numero) {
     }
 
     //nao tenho certeza ainda
-    if(urlResposta.value.includes(".jpg")){
+    if (urlResposta.value.includes(".jpg")) {
         answer.image = urlResposta.value
-    }else{
-        alerta+="\nvoce nao colocou um URL valido"
+    } else {
+        alerta += "\nvoce nao colocou um URL valido"
         validacaoResposta = false
     }
 
@@ -217,14 +217,14 @@ function createWrongAnswer(numero) {
             validacaoResposta = true
 
         } else {
-            alerta +=`\nresposta errada numero ${i}:você precisa escrever algo para a resposta`
+            alerta += `\nresposta errada numero ${i}:você precisa escrever algo para a resposta`
             validacaoResposta = false
         }
 
         //nao tenho certeza ainda
-        if(urlResposta.value.includes(".jpg")){
-        answer.image = urlResposta.value
-        }else{
+        if (urlResposta.value.includes(".jpg")) {
+            answer.image = urlResposta.value
+        } else {
             alerta += `\nresposta errada numero ${i}:voce nao colocou um URL valido`
             validacaoResposta = false
         }
@@ -260,20 +260,30 @@ function createQuestion(numero) {
     if (textoPergunta.value.length >= 20) {
         question.title = textoPergunta.value //pelo menos 20 caracteres
     } else {
-        alerta+="\no texto da pergunta deve ter pelo menos 20 caracteres"
+        alerta += "\no texto da pergunta deve ter pelo menos 20 caracteres"
         return false
     }
 
-    //    if(condição da cor){
-    //        colocar a cor
-    //    }else{
-    //    return false
-    //}
+    if (corPergunta.value !== "" && corPergunta.value.length <= 6) {
+        let testeCor = "0123456789abcdef"
+        let validacaoCor = true
+        for (let i = 0; i < corPergunta.value.length; i++) {
+            validacaoCor = testeCor.includes(corPergunta.value[i])
+            if (validacaoCor === false) {
+                alerta += "\nvoce nao colocou uma cor valida"
+                return false
+                break
+            } else {
+                question.color = corPergunta.value //cor hexagonal
+            }
+        }
+    } else {
+        return false
+    }
 
-    question.color = corPergunta.value, //cor hexagonal
 
 
-        console.log("question" + question)
+    console.log("question" + question)
 
 
     if (answers.length >= 2 && answers.length <= 4) {
@@ -326,7 +336,7 @@ function concluirQuestions() {
     }
 
     if (validacao === true) {
-        
+
         quiz.questions = questions
 
         //teste
@@ -442,10 +452,10 @@ function verifyLevels() {
         }
 
         //3°url da img
-        if(urlLevel.includes(".jpg")){
-        level.image = urlLevel
-        validacaoLevel = true
-        }else{
+        if (urlLevel.includes(".jpg")) {
+            level.image = urlLevel
+            validacaoLevel = true
+        } else {
             alertaNivel += "\nvoce nao colocou um URL valido"
             validacaoLevel = false
         }
@@ -455,7 +465,7 @@ function verifyLevels() {
             level.text = descLevel
             validacaoLevel = true
         } else {
-            alertaNivel+= "\nvoce colocou menos que 30 caracteres como descrição do nivel"
+            alertaNivel += "\nvoce colocou menos que 30 caracteres como descrição do nivel"
             validacaoLevel = false
         }
 
@@ -471,6 +481,8 @@ function verifyLevels() {
     //add no obj o a lista de levels
     quiz.levels = levels
 
+
+    endQuiz()
 
     //teste
     console.log("essa é a lista de niveis" + levels)
