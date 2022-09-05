@@ -37,6 +37,8 @@ function makePost(endUrl, body) {
 
 }
 
+exports.makePost = makePost
+
 function makeGet(endUrl, description) {
     let url = templateURL + endUrl;
     const promise = axios.get(url);
