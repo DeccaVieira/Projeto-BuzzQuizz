@@ -49,7 +49,7 @@ function concluirInfo() {
     const tituloQuiz = document.querySelector(".js_info_titulo").value
     const urlImagemInfo = document.querySelector(".js_info_img").value
     const qtdPerguntas = Number(document.querySelector(".js_info_qtd_perguntas").value)
-    const qtdNiveis = Number(document.querySelector(".js_info_qtd_niveis").value)
+    const qtdLevels = Number(document.querySelector(".js_info_qtd_niveis").value)
 
 
     //ver se as variaveis passam nos criterios estabelecidos
@@ -66,7 +66,7 @@ function concluirInfo() {
         validacaoFuncao[2] = true
     }
 
-    if (qtdNiveis >= 1) {
+    if (qtdLevels >= 1) {
         validacaoFuncao[3] = true
     }
 
@@ -79,7 +79,7 @@ function concluirInfo() {
         quiz.title = tituloQuiz
         quiz.image = urlImagemInfo
         quiz.questions = qtdPerguntas
-        quiz.niveis = qtdNiveis
+        quiz.levels = qtdLevels
 
 
         //teste
@@ -89,7 +89,7 @@ function concluirInfo() {
         fazerPerguntas()
     }
 
-    
+
 
 }
 
@@ -151,6 +151,7 @@ function fazerPerguntas() {
 
 
 
+let validacaoResposta = true;
 
 function createRightAnswer(numero) {
 
@@ -163,9 +164,11 @@ function createRightAnswer(numero) {
     //conferir criterios
     if (textoResposta.value !== "") {
         answer.text = textoResposta.value
+        validacaoResposta = true
 
     } else {
         alert("você precisa escrever algo para a resposta")
+        validacaoResposta = false
     }
 
     //nao tenho certeza ainda
@@ -180,6 +183,7 @@ function createRightAnswer(numero) {
     answers.push(answer)
 
     //teste
+    console.log("validacao certa:" + validacaoResposta)
     console.log("lista de resposta certa: ", answers)
 }
 
@@ -198,11 +202,13 @@ function createWrongAnswer(numero) {
         const urlResposta = document.querySelector(`.pergunta${numero} > .js_url_img_resposta.incorreta${i}`)
 
         //conferir criterios
-        if (textoResposta.value !== " ") {
+        if (textoResposta.value !== "") {
             answer.text = textoResposta.value
+            validacaoResposta = true
 
         } else {
             alert("você precisa escrever algo para a resposta")
+            validacaoResposta = false
         }
 
         //nao tenho certeza ainda
@@ -221,6 +227,7 @@ function createWrongAnswer(numero) {
 
 
     //teste
+    console.log("validacao errada:" + validacaoResposta)
     console.log("lista de resposta errada: ", answers)
 
 }
@@ -242,16 +249,19 @@ function createQuestion(numero) {
         question.title = textoPergunta.value //pelo menos 20 caracteres
     } else {
         alert("o texto da pergunta deve ter pelo menos 20 caracteres")
+        return false
     }
 
-//    if(condição da cor){
-//        colocar a cor
-//    }
+    //    if(condição da cor){
+    //        colocar a cor
+    //    }else{
+    //    return false
+    //}
 
     question.color = corPergunta.value, //cor hexagonal
 
 
-    console.log("question" + question)
+        console.log("question" + question)
 
 
     if (answers.length >= 2 && answers.length <= 4) {
@@ -274,34 +284,46 @@ function createQuestion(numero) {
             questions.push(question)
         } else {
             alert("Você não escreveu a respota correta ou não escreveu o numero suficiente de incorretas")
+            return false
         }
-        
 
+
+    }
+    if (validacaoResposta === false) {
+        return false
     }
 
 
     console.log("lista de questoes", questions)
+    return true
 }
 
 
 function concluirQuestions() {
 
 
-    for (let i = 1; i < quiz.questions+1; i++) {
+    for (let i = 1; i < quiz.questions + 1; i++) {
 
         createRightAnswer(i)
         createWrongAnswer(i)
-        createQuestion(i)
+        validacao = createQuestion(i)
         answers = []
-        
+
 
     }
-    
 
-    console.log("esse é o obj questions: ", questions)
-    quiz.questions = questions
-    console.log("esse é o obj quiz: ", quiz)
-    fazerNiveis()
+    if (validacao === true) {
+        console.log("esse é o obj questions: ", questions)
+        quiz.questions = questions
+        console.log("esse é o obj quiz: ", quiz)
+
+        createLevel()
+    } else {
+        alert("voce fez coisa errada")
+    }
+
+
+
 }
 
 
@@ -333,20 +355,19 @@ level:{
 
 
 */
-const pagNiveis = document.querySelector(".niveis")
-const niveis = []
-const nivel = {}
+const pagLevel = document.querySelector(".niveis")
 
-function fazerNiveis() {
-    for (let i = 1; i < quiz.niveis + 1; i++) {
+
+function createLevel() {
+    for (let i = 1; i < quiz.levels + 1; i++) {
 
         //construindo os modelos de pergunta, resposta certa e resposta errada
 
-        pagNiveis.innerHTML += `
+        pagLevel.innerHTML += `
         <article class="js_article">
     
             <label> Nível ${i} </label>
-            <div> 
+            <div class="nivel${i}"> 
             <input type="text" class="js_texto_nivel" placeholder="Título do nível">
             <input type="text" class="js_porcentagem_nivel" placeholder="% de acerto da pergunta">
             <input type="url" class="js_url_img_nivel" placeholder="URL da imagem do nivel">
@@ -356,48 +377,72 @@ function fazerNiveis() {
         `
     }
     //adcionar butao com funcao de concluir as perguntas
-    pagNiveis.innerHTML += `<button class="js_button" onclick="concluirQuestions()">Finalizar quiz</button>`
+    pagLevel.innerHTML += `<button class="js_button" onclick="verifyLevels()">Finalizar quiz</button>`
 }
 
-function VerificarNiveis() {
+let levels = []
+let level = {}
+let validacaoLevel = true
 
-    for (let i = 1; i < quiz.niveis + 1; i++) {
-        const textoNivel = document.querySelector(`.js_texto_nivel${i}`).value
-        const porcentagemNivel = document.querySelector(`.js_porcentagem_nivel${i}`).value
-        const urlNivel = document.querySelector(`.js_url_img_nivel${i}`).value
-        const descNivel = document.querySelector(`.js_desc_nivel${i}`).value
+function verifyLevels() {
+
+    for (let i = 1; i < quiz.levels + 1; i++) {
+        const textoLevel = document.querySelector(`.nivel${i} > .js_texto_nivel`).value
+        const porcentagemLevel = Number(document.querySelector(`.nivel${i} > .js_porcentagem_nivel`).value)
+        const urlLevel = document.querySelector(`.nivel${i} > .js_url_img_nivel`).value
+        const descLevel = document.querySelector(`.nivel${i} > .js_desc_nivel`).value
 
 
         //1° texto
-        if (textoNivel.length <= 10) {
-            nivel.text = textoNivel
+        if (textoLevel.length >= 10) {
+            level.text = textoLevel
+            validacaoLevel = true
         } else {
             alert("voce colocou menos de 10 caracteres")
+            validacaoLevel = false
         }
 
         //2°porcentagem
-        if (porcentagemNivel > 0 && porcentagemNivel < 100) {
-            nivel.minValue = porcentagemNivel
+        if (porcentagemLevel > 0 && porcentagemLevel < 100) {
+            level.minValue = porcentagemLevel
+            validacaoLevel = true
         } else {
-            alert("voce colocou um numero que faz sentido")
+            alert("voce colocou um numero que nao faz sentido")
+            validacaoLevel = false
         }
 
         //3°url da img
-        nivel.image = urlNivel
+        level.image = urlLevel
 
-        //4° descricao do nivel
-        if (descNivel.length <= 65) {
-            nivel.text = descNivel
+        //4° descricao do Level
+        if (descLevel.length <= 65) {
+            level.text = descLevel
+            validacaoLevel = true
         } else {
             alert("voce colocou menos letras do que deveria")
+            validacaoLevel = false
         }
-        niveis.push(nivel)
+
+        if (validacaoLevel === true) {
+            levels.push(level)
+            level = {}
+        } else {
+            alert("voce faz coisa errada level")
+        }
     }
-    quiz.niveis = niveis
+
+    quiz.levels = levels
+
 
     //teste
-    console.log(niveis)
+    console.log("essa é a lista de niveis" + levels)
 
     //teste quiz
-    console.log(quiz)
+    console.log("quiz: " + quiz)
+}
+
+
+//finaliza o quiz
+function endQuiz() {
+
 }
