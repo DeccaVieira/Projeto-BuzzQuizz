@@ -6,6 +6,9 @@ const boxMyQuizzes = document.querySelector('.js-main__my-quizzes');
 const boxCreateQuizz = document.querySelector('.js-main__create'); 
 
 const myStorage = localStorage;
+const sentToLocalStorage = (idQuizz) => myStorage.setItem(idQuizz, JSON.stringify(idQuizz));
+const getToLocalStorage = (idQuizz) => listMyQuizzes.push(JSON.parse(myStorage.getItem(idQuizz)));
+
 const listMyQuizzes = [];
 
 let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
@@ -18,11 +21,9 @@ let justIdQuizz;
 let quizzToPlay;
 
 // usar essa função para gravar o quizz no LocalStorage
-const sentToLocalStorage = (idQuizz) => myStorage.setItem(idQuizz, JSON.stringify(idQuizz));
 //
 
 // usar essa função para enviar pegar um quizz do LocalStorage e armazenar uma lista;
-const getToLocalStorage = (idQuizz) => listMyQuizzes.push(JSON.parse(myStorage.getItem(idQuizz)));
 //
 
 makeGet('/quizzes', 'allQuizzes');
@@ -73,6 +74,9 @@ function renderAllQuizzes(answer) {
     // console.log(listOfQuizz);
 
     listOfQuizz.forEach(function(quizz) {
+
+        getToLocalStorage(quizz.id);
+
         const conditionCreationQuizz = listMyQuizzes.includes(quizz.id);
 
         if (conditionCreationQuizz) {
@@ -861,7 +865,8 @@ const sucessoQuiz = document.querySelector(".sucesso")
 function postMyQuizz(answer){
     console.log('normal', answer)
 
-    console.log(' data   ',answer.data)
+    const quizz = answer.data;
+    sentToLocalStorage(quizz.id)
     pagLevel.innerHTML = ""
 
     sucessoQuiz.innerHTML+=
@@ -869,13 +874,13 @@ function postMyQuizz(answer){
     <h1>Seu quizz está pronto!</h1>
     <article 
                             
-    class="c-main__quizz js-quizz" 
-    id="quizz${quizz.id}"
-    style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
-    onclick="openQuiz(this)">
+        class="c-main__quizz js-quizz" 
+        id="quizz${quizz.id}"
+        style="background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(0, 0, 0, 0.5) 64.58%, #000000 100%), url(${quizz.image});"
+        onclick="openQuiz(this)">
 
 
-    <h1 class="c-quizz__title">${quizz.title}</h1>
+        <h1 class="c-quizz__title">${quizz.title}</h1>
     </article>  
     <p>Voltar a home</p>
     `
