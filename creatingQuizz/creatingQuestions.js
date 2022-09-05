@@ -57,22 +57,22 @@ function concluirInfo() {
         validacaoFuncao[0] = true
     }
 
-    //nao tenho certeza ainda
-    //if(typeof(urlImagemInfo) === URL){
-    //    validacaoFuncao[1] = true
-    //}
+    
+    if(urlImagemInfo[-4] === ".jpg"){
+        validacaoFuncao[1] = true
+    }
 
-    if (qtdPerguntas >= 1) {
+    if (qtdPerguntas >= 3) {
         validacaoFuncao[2] = true
     }
 
-    if (qtdLevels >= 1) {
+    if (qtdLevels >= 2) {
         validacaoFuncao[3] = true
     }
 
     //ver se existe algum elemento que nao passou nos criterios
     if (validacaoFuncao.some(elem => elem === false)) {
-        alert("voce fez coisa errada")
+        alert("Você colocou um dado invalido, os dados devem ter:\nO titulo precisa ter entre 20 a 65 caracteres\nO url da imagem precisa ser valido\nO numero de perguntas precisa ser maior que 2\nO numero de niveis precisa ser mais que 1")
     } else {
 
         //adicionar essas variaveis no objeto quizz se elas passaram nos criterios
@@ -105,6 +105,8 @@ let questions = [];
 //answers = [answer0, answer1,...]
 let answers = [];
 
+//alerta de erro
+let alerta = ""
 
 
 
@@ -150,7 +152,7 @@ function fazerPerguntas() {
 }
 
 
-
+//criar uma variavel para controlar se os criterios foram atendidos
 let validacaoResposta = true;
 
 function createRightAnswer(numero) {
@@ -167,16 +169,16 @@ function createRightAnswer(numero) {
         validacaoResposta = true
 
     } else {
-        alert("você precisa escrever algo para a resposta")
+        alerta += "resposta correta: você precisa escrever algo"
         validacaoResposta = false
     }
 
     //nao tenho certeza ainda
-    //if(typeof(urlResposta) === URL){
+    if(urlResposta[-4] === ".jpg"){
     answer.image = urlResposta.value
-    //}else{
-    //    alert("voce nao colocou um URL valido")
-    //}
+    }else{
+        alerta+="\nvoce nao colocou um URL valido"
+    }
 
     answer.isCorrectAnswer = true
     //adicionar na lista de respostas
@@ -188,7 +190,7 @@ function createRightAnswer(numero) {
 }
 
 
-//como chamar a funcao para varias perguntas?
+
 function createWrongAnswer(numero) {
 
 
@@ -207,16 +209,16 @@ function createWrongAnswer(numero) {
             validacaoResposta = true
 
         } else {
-            alert("você precisa escrever algo para a resposta")
+            alerta +=`\nresposta errada numero ${i}:você precisa escrever algo para a resposta`
             validacaoResposta = false
         }
 
         //nao tenho certeza ainda
-        //if(typeof(urlResposta) === URL){
+        if(urlResposta[-4] === ".jpg"){
         answer.image = urlResposta.value
-        //}else{
-        //    alert("voce nao colocou um URL valido")
-        //}
+        }else{
+            alert("voce nao colocou um URL valido")
+        }
 
         answer.isCorrectAnswer = false
         //adicionar na lista de respostas
@@ -235,7 +237,8 @@ function createWrongAnswer(numero) {
 
 
 
-
+//a funcao pega o texto e cor dos inputs e junta com a lista das respostas para gerar o objeto questao e colocá-lo na lista questoes
+//a funcao retorna true ou false para garantir que os criterios que nao passem, nao entrem no quiz
 function createQuestion(numero) {
 
     const question = {}
@@ -248,7 +251,7 @@ function createQuestion(numero) {
     if (textoPergunta.value.length >= 20) {
         question.title = textoPergunta.value //pelo menos 20 caracteres
     } else {
-        alert("o texto da pergunta deve ter pelo menos 20 caracteres")
+        alerta+="\no texto da pergunta deve ter pelo menos 20 caracteres"
         return false
     }
 
@@ -283,7 +286,7 @@ function createQuestion(numero) {
 
             questions.push(question)
         } else {
-            alert("Você não escreveu a respota correta ou não escreveu o numero suficiente de incorretas")
+            alerta += "\nVocê não escreveu um numero correto de respostas corretas e incorretas"
             return false
         }
 
@@ -298,7 +301,7 @@ function createQuestion(numero) {
     return true
 }
 
-
+//chamada quando aperta o botao
 function concluirQuestions() {
 
 
@@ -306,6 +309,7 @@ function concluirQuestions() {
 
         createRightAnswer(i)
         createWrongAnswer(i)
+        //chama a funcao createQuestion e pega o valor retornado na variavel (true/false)
         validacao = createQuestion(i)
         answers = []
 
@@ -313,13 +317,16 @@ function concluirQuestions() {
     }
 
     if (validacao === true) {
-        console.log("esse é o obj questions: ", questions)
+        
         quiz.questions = questions
+
+        //teste
+        console.log("esse é o obj questions: ", questions)
         console.log("esse é o obj quiz: ", quiz)
 
         createLevel()
     } else {
-        alert("voce fez coisa errada")
+        alert(alerta)
     }
 
 
@@ -355,9 +362,11 @@ level:{
 
 
 */
+
+//pedaço do HTML 
 const pagLevel = document.querySelector(".niveis")
 
-
+//chamada quando partar o botao da sessao de perguntas
 function createLevel() {
     for (let i = 1; i < quiz.levels + 1; i++) {
 
@@ -380,12 +389,21 @@ function createLevel() {
     pagLevel.innerHTML += `<button class="js_button" onclick="verifyLevels()">Finalizar quiz</button>`
 }
 
+// levels = [level0, level1, level2, ...]
 let levels = []
+
+//obj com info do level
 let level = {}
+
+//variavel para garantir que os criterios sejam seguidos
 let validacaoLevel = true
+
+
+let alertaNivel = ""
 
 function verifyLevels() {
 
+    //criando variaveis com dados dos inputs, e refazendo isso para cada nivel
     for (let i = 1; i < quiz.levels + 1; i++) {
         const textoLevel = document.querySelector(`.nivel${i} > .js_texto_nivel`).value
         const porcentagemLevel = Number(document.querySelector(`.nivel${i} > .js_porcentagem_nivel`).value)
@@ -393,12 +411,13 @@ function verifyLevels() {
         const descLevel = document.querySelector(`.nivel${i} > .js_desc_nivel`).value
 
 
+        //Criterios pre-estabelecidos
         //1° texto
         if (textoLevel.length >= 10) {
             level.text = textoLevel
             validacaoLevel = true
         } else {
-            alert("voce colocou menos de 10 caracteres")
+            alertaNivel += "\nvoce colocou menos de 10 caracteres no texto do nivel"
             validacaoLevel = false
         }
 
@@ -407,30 +426,37 @@ function verifyLevels() {
             level.minValue = porcentagemLevel
             validacaoLevel = true
         } else {
-            alert("voce colocou um numero que nao faz sentido")
+            alertaNivel += "\nvoce colocou um numero que nao faz sentido como porcentagem"
             validacaoLevel = false
         }
 
         //3°url da img
+        if(urlLevel[-4] === ".jpg"){
         level.image = urlLevel
+        validacaoLevel = true
+        }else{
+            alertaNivel += "\nvoce nao colocou um URL valido"
+        }
 
         //4° descricao do Level
-        if (descLevel.length <= 65) {
+        if (descLevel.length >= 30) {
             level.text = descLevel
             validacaoLevel = true
         } else {
-            alert("voce colocou menos letras do que deveria")
+            alertaNivel+= "\nvoce colocou menos que 30 caracteres como descrição do nivel"
             validacaoLevel = false
         }
 
+        //avaliar se os dados passaram nos criterios
         if (validacaoLevel === true) {
             levels.push(level)
             level = {}
         } else {
-            alert("voce faz coisa errada level")
+            alert(alerta)
         }
     }
 
+    //add no obj o a lista de levels
     quiz.levels = levels
 
 
