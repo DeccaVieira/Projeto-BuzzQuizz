@@ -1,3 +1,5 @@
+//const api = require("./js/script")
+
 //informacoes gerais do quiz
 
 const infoGerais = document.querySelector(".info_gerais")
@@ -274,7 +276,7 @@ function createQuestion(numero) {
                 return false
                 break
             } else {
-                question.color = corPergunta.value //cor hexagonal
+                question.color = "#"+corPergunta.value //cor hexagonal
             }
         }
     } else {
@@ -495,4 +497,29 @@ function verifyLevels() {
 //finaliza o quiz
 function endQuiz() {
 
+    let templateURL = 'https://mock-api.driven.com.br/api/v4/buzzquizz';
+    ////posta o quiz no servidor
+    //api.makePost("/quizzes",quiz)
+    ////carrega a pagina de sucesso do quiz
+    carregarSucesso()
+
+
+}
+
+/////////////////Sucesso do quiz ///////////////////////
+
+
+const sucessoQuiz = document.querySelector(".sucesso")
+function carregarSucesso(){
+pagLevel.innerHTML = ""
+
+sucessoQuiz.innerHTML+=
+`
+<h1>Seu quizz está pronto!</h1>
+-q
+<p>Voltar a home</p>
+`
+//ainda dentro das aspas - colcoar no lugar do -q
+// colocar para ver o quiz
+//botao de acessar o quiz
 }
