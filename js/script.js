@@ -427,8 +427,7 @@ function concluirInfo() {
         quiz.levels = qtdLevels
 
 
-        //teste
-        console.log("info gerais do quiz ", quiz);
+
         
         //funçao para fazer as perguntas
         fazerPerguntas()
@@ -459,7 +458,7 @@ const formulario = document.querySelector(".perguntas")
 
 
 function fazerPerguntas() {
-    console.log('AAAAAAAAAAAAA')
+
     //pq nao ta escondendo o quiz?
     infoGerais.style.display = 'none';
     formulario.innerHTML += `<h1 class="crie_perguntas_txt">Crie suas perguntas</h1>`
@@ -543,9 +542,7 @@ function createRightAnswer(numero) {
     //adicionar na lista de respostas
     answers.push(answer)
 
-    //teste
-    console.log("validacao certa:" + validacaoResposta)
-    console.log("lista de resposta certa: ", answers)
+
 }
 
 
@@ -589,10 +586,6 @@ function createWrongAnswer(numero) {
     }
 
 
-    //teste
-    console.log("validacao errada:" + validacaoResposta)
-    console.log("lista de resposta errada: ", answers)
-
 }
 
 
@@ -601,6 +594,7 @@ function createWrongAnswer(numero) {
 //a funcao pega o texto e cor dos inputs e junta com a lista das respostas para gerar o objeto questao e colocá-lo na lista questoes
 //a funcao retorna true ou false para garantir que os criterios que nao passem, nao entrem no quiz
 function createQuestion(numero) {
+
 
     const question = {}
 
@@ -615,6 +609,8 @@ function createQuestion(numero) {
         alerta += "\no texto da pergunta deve ter pelo menos 20 caracteres"
         return false
     }
+
+
 
     if (corPergunta.value !== "" && corPergunta.value.length <= 6) {
         let testeCor = "0123456789abcdef"
@@ -632,12 +628,6 @@ function createQuestion(numero) {
         return true
     }
 
-
-
-    console.log("question" + question)
-
-    
-    console.log('cccccccccccccccc',answers)
     if (answers.length >= 2 && answers.length <= 4) {
         //criar dois contadores para garantir as condiçoes de resposta
         let correto = 0
@@ -647,7 +637,7 @@ function createQuestion(numero) {
         for (let i = 0; i < answers.length; i++) {
             if (answers[i].isCorrectAnswer === true) {
                 correto += 1
-                console.log(answers[i])
+
             } else {
                 incorreto += 1
             }
@@ -664,12 +654,14 @@ function createQuestion(numero) {
 
 
     }
+
+
+
     if (validacaoResposta === false) {
         return false
     }
 
 
-    console.log("lista de questoes", questions)
     return true
 }
 
@@ -683,25 +675,24 @@ function concluirQuestions() {
         createRightAnswer(i)
         createWrongAnswer(i)
         //chama a funcao createQuestion e pega o valor retornado na variavel (true/false)
-        console.log('bbbbbbbbbbb')
-        createQuestion(i);
+
         validacao = createQuestion(i)
 
     }
+
+
+    
 
     if (validacao === true) {
 
         quiz.questions = questions
 
-        //teste
-        console.log("esse é o obj questions: ", questions)
-        console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAA')
-        console.log("esse é o obj quiz: ", quiz)
+
         
         createLevel()
     } else {
         alert(alerta)
-        console.log('BBBBBBBBBBBBBBBBBBBBBBBBBBBBb')
+
     }
 
 
@@ -840,11 +831,6 @@ function verifyLevels() {
 
     endQuiz()
 
-    //teste
-    console.log("essa é a lista de niveis" + levels)
-
-    //teste quiz
-    console.log("quiz: " + quiz)
 }
 
 
@@ -863,7 +849,6 @@ function endQuiz() {
 
 const sucessoQuiz = document.querySelector(".sucesso")
 function postMyQuizz(answer){
-    console.log('normal', answer)
 
     const quizz = answer.data;
     sentToLocalStorage(quizz.id)
